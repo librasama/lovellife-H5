@@ -1,50 +1,76 @@
 $(document).ready(
     function(){
         var c = document.getElementById('canvas');
-        var ctx = stage.initStage(c, 800, 640, 2);
-        stage.initFixedCircle(ctx, coord.fixArc, setting.fixArc, color.fixArc);
-        stage.drawCenterStar(ctx, coord.star, setting.star, color.star);
-        stage.circleAnime(ctx, coord.moveArcS, coord.moveArcE, setting.animeTime);
+        s = new Director().init(c);
+        cxt = s.ctx;
+        track = s.track;
     }
 );
 
-var coord = {
-    star:{x:400, y:100},
-    fixArc:{x:400, y:550},
-    moveArcS:{x:400, y:150},
-    moveArcE:{x:400, y:614}
+var constVal = {
+    coord : {
+        star:{x:400, y:100},
+        fixArc:{x:400, y:550},
+        moveArcS:{x:400, y:150},
+        moveArcE:{x:400, y:614}
+    },
+    color : {
+        fixArc:"red",
+        star:"sienna"
+    },
+    setting : {
+        fixArc:30,
+        star:50,
+        animeTime:1000
+    },
+    event:{
+        TouchIn:"touchin",
+        TouchOut:"touchOut"
+    }
+}
 
-};
-var color = {
-    fixArc:"red",
-    star:"sienna"
+function Director(canvas){
+    this.c = canvas;
 }
-var setting = {
-    fixArc:30,
-    star:50,
-    animeTime:1000
+Director.prototype = {
+    c:null,
+    stage:null,
+    tune:new Tune(),
+    init:function(c){
+        this.stage = new Stage(c, 800, 640, 2),
+        this.stage.initStage();
+        return this.stage;
+    },
+    pause:function(){},
+    play:function(){},
+    isEnd:function(){}
 }
-var stage = {
-    initStage:function(c, w, h, lw) {
-        var mouse=utils.cpatureMousePosition(c);
-        (function drawFrame(){
-            window.requestAnimFrame(drawFrame,c);
-            console.log(mouse.x+","+mouse.y);
-        })();
-        c.width= w;
-        c.height= h;
-        var ctx = c.getContext('2d');
-        ctx.lineWidth = lw;
-        return ctx;
+
+function Stage(){}
+function Stage(c, w, h, lw){
+    this.canvas = c;
+    this.width = w;
+    this.height = h;
+    this.canvas.width= w;
+    this.canvas.height= h;
+    this.ctx = canvas.getContext('2d');
+    this.ctx.lineWidth = lw;
+}
+Stage.prototype = {
+    canvas:{},
+    width:0,
+    height:0,
+    ctx:{},
+    startTime:0,
+    track:{},
+    initStage:function() {
+        utils.cpatureMousePosition(this.canvas);
+        this.initStar(this.ctx, constVal.coord.star, constVal.setting.star, constVal.color.star);
+        this.initEventlistener();
+        this.track = new Track().sequential(this.ctx);
+        return this.ctx;
     },
-    initFixedCircle: function(ctx, origin, radius, color) {
-        ctx.strokeStyle = color;
-        ctx.beginPath();
-        ctx.arc(origin.x, origin.y, radius, 0 , 2*Math.PI, true);
-        ctx.closePath();
-        ctx.stroke();
-    },
-    drawCenterStar:function(cxt, center, r, color) {
+    initStar:function(cxt, center, r, color) {
         a = {x:0, y:-1};
         b = {x:Math.cos(0.1*Math.PI), y:-Math.sin(0.1*Math.PI)};
         c = {x:Math.cos(0.3*Math.PI), y:Math.sin(0.3*Math.PI)};
@@ -64,6 +90,59 @@ var stage = {
         cxt.stroke();
         cxt.closePath();
     },
+    initEventlistener:function(){
+        eventbus.addEventlistener(constVal.event.TouchIn, function(type, mouse){
+            console.log("x:"+mouse.x+";y:"+mouse.y);
+        });
+    }
+}
+
+function Tune(){}
+Tune.prototype = {
+    init:function(){
+
+    }
+};
+
+function ControllBtn(){
+}
+ControllBtn.prototype = {
+    ctx:{},
+    origin:{},
+    radius:0,
+    init:function(ctx, origin, radius, color) {
+        this.ctx = ctx;
+        this.origin = origin;
+        this.radius = radius;
+        this.color = color;
+        this.draw();
+        this.initListener();
+    },
+    draw:function() {
+        this.ctx.strokeStyle = this.color;
+        this.ctx.beginPath();
+        this.ctx.arc(this.origin.x, this.origin.y, this.radius, 0 , 2*Math.PI, true);
+        this.ctx.closePath();
+        this.ctx.stroke();
+    },
+    initListener:function(){
+        eventbus.addEventlistener(constVal.event.TouchIn, function(type, mouse){
+            if(Math.sqrt(Math.pow((origin.x-mouse.x),2), Math.pow((origin.y-mouse.y),2)) <= radius) {
+                console.log("In!!");
+            } else {
+                console.log("Out!!");
+            }
+        });
+
+    }
+};
+function Track(){}
+Track.prototype = {
+    beats:[],
+    btn:new ControllBtn(),
+    curIdx :0,
+    maxIdx:0,
+    ctx:{},
     drawMoveCircle:function(ctx, x, y, r, color) {
         ctx.strokeStyle = color;
         ctx.beginPath();
@@ -71,30 +150,60 @@ var stage = {
         ctx.closePath();
         ctx.stroke();
     },
-    //一秒刷新50次
-    circleAnime:function(cxt, s, d, animeTime) {
+    moveAnime:function(cxt, s, d, animeTime) {
         var startTime = new Date().getTime();
         px = s.x;
         py = s.y;
-        pr = setting.fixArc * 0.5;
-        circleDown = setInterval(function(){
+        pr = constVal.setting.fixArc * 0.5;
+        function circleDown(){
             var pass = new Date().getTime()-startTime;
             if(pass<= animeTime) {
                 percent = pass/animeTime;
-                cxt.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
+                track.ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
                 px = s.x;
                 py = s.y+(d.y-s.y)*percent ;
-                pr = setting.fixArc*(0.5+percent*0.5);
-                stage.drawMoveCircle(cxt, px, py, pr, "black");
-                if(py+pr > coord.fixArc.y-setting.fixArc) {
-                    stage.initFixedCircle(cxt, coord.fixArc, setting.fixArc, color.fixArc);
+                pr = constVal.setting.fixArc*(0.5+percent*0.5);
+                track.drawMoveCircle(cxt, px, py, pr, "black");
+                if(py+pr > constVal.coord.fixArc.y-constVal.setting.fixArc) {
+                    track.btn.draw();
                 }
-            } else {
-                clearInterval(circleDown);
+                window.requestAnimFrame(circleDown);
             }
-        }, 20);
+        };
+        window.requestAnimFrame(circleDown);
+    },
+    initbeats:function(){
+        this.beats.push(new Beat(0), new Beat(1000), new Beat(3000));
+    },
+    sequential:function(ctx) {
+        this.btn.init(ctx, constVal.coord.fixArc, constVal.setting.fixArc, constVal.color.fixArc);
+        this.ctx = ctx;
+        this.initbeats();
+        this.maxIdx = this.beats.length;
+        st = new Date().getTime()+constVal.setting.animeTime;
+        window.requestAnimFrame(this.play);
+        return this;
+    },
+    play:function(){
+        if(track.curIdx < track.maxIdx) {
+            curBeat = track.beats[track.curIdx];
+            var pass = new Date().getTime()-st;
+            if(curBeat.rightTime <= pass) {
+                track.curIdx++;
+                track.moveAnime(track.ctx, constVal.coord.moveArcS, constVal.coord.moveArcE, constVal.setting.animeTime);
+            }
+            window.requestAnimFrame(track.play);
+        }
     }
 }
+
+function Beat(time) {
+    return {rightTime:time};
+}
+Beat.prototype = {
+
+}
+
 var utils={};
 utils.cpatureMousePosition=function(element){
     var mouse={x:0,y:0};
@@ -111,8 +220,24 @@ utils.cpatureMousePosition=function(element){
         y-=element.offsetTop;
         mouse.x=x;
         mouse.y=y;
+        eventbus.dispatchEvent(constVal.event.TouchIn, mouse)
     },false);
     return mouse;
+};
+var eventbus = {
+    eventQueue:{},
+    addEventlistener:function(eventType, callback){
+        if(eventbus.eventQueue[eventType] == null) {eventbus.eventQueue[eventType] = [];}
+        eventbus.eventQueue[eventType].push(callback);
+    },
+    dispatchEvent:function(eventType, eventInfo) {
+        if(eventbus.eventQueue != null &&　eventbus.eventQueue[eventType] != null) {
+            $(eventbus.eventQueue[eventType]).each(function($idx, $cb){
+                $cb(eventType, eventInfo);
+            });
+        }
+    }
+
 };
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       ||
