@@ -1,10 +1,12 @@
 $(document).ready(
     function(){
         var c = document.getElementById('canvas');
-        s = new Director().init(c);
+        var d = new Director(c);
+        d.play(0);
+        initPlaybtn(d);
     }
 );
-
+var isPlay = false;
 var constVal = {
     coord : {
         star:{x:400, y:100},
@@ -23,27 +25,41 @@ var constVal = {
     },
     event:{
         TouchIn:"touchin",
-        TouchOut:"touchOut"
+        TouchOut:"touchOut",
+        Play:"Play",
+        Pause:"Pause"
     }
 }
 
-function Director(canvas){
+function Director(canvas, i){
     this.c = canvas;
+    this.stage = new Stage(canvas, 800, 640, 2);
+    this.stage.initStage();
 }
 Director.prototype = {
     c:null,
     stage:null,
-    tune:new Tune(),
-    init:function(c){
-        this.stage = new Stage(c, 800, 640, 2),
-        this.stage.initStage();
-        return this.stage;
+    tune:null,
+    pauseTimestamp:new Date().getTime(),
+    startTimestamp:new Date().getTime(),
+    currentSecond:0,
+    song:{},
+    pause:function(){
+        this.stage.pause();
     },
-    pause:function(){},
-    play:function(){},
+    play:function(i){
+        d = this;
+        var dataRoot = "data/tune.json";
+        $.getJSON(dataRoot, function (data) {
+            this.tune = new Tune(data.tunes[i]);
+            this.tune.init();
+            d.stage.play();
+            isPlay = true;
+            this.tune.play();
+        });
+    },
     isEnd:function(){}
 }
-
 function Stage(){}
 function Stage(c, w, h, lw){
     this.canvas = c;
@@ -64,8 +80,6 @@ Stage.prototype = {
         utils.cpatureMousePosition(this.canvas);
         this.initStar(this.ctx, constVal.coord.star, constVal.setting.star, constVal.color.star);
         this.initEventlistener();
-        new Track().sequential(this.ctx);
-        return this.ctx;
     },
     initStar:function(cxt, center, r, color) {
         a = {x:0, y:-1};
@@ -88,18 +102,66 @@ Stage.prototype = {
         cxt.closePath();
     },
     initEventlistener:function(){
+        var stage = this;
         eventbus.addEventlistener(constVal.event.TouchIn, function(type, mouse){
             console.log("x:"+mouse.x+";y:"+mouse.y);
         });
+        eventbus.addEventlistener(constVal.event.Play, function(type, info){
+
+        });
+        eventbus.addEventlistener(constVal.event.Pause, function(type, info){
+
+        });
+
+    },
+    play:function() {
+        new Track().sequential(this.ctx);
+    },
+    pause:function() {
+
     }
 }
+function initPlaybtn(d) {
+    $("#playbtn").on("click", function() {
+        if($("audio").get(0).paused) {
+            eventbus.dispatchEvent(constVal.event.Play, {"time":new Date().getTime()});
+            $("#playbtn").val("暂停");
+            $("audio").get(0).play();
+            isPlay = true;
+        } else {
+            eventbus.dispatchEvent(constVal.event.Pause, {"time":new Date().getTime()});
+            $("#playbtn").val("播放");
+            $("audio").get(0).pause();
+            isPlay = false;
+        }
+    });
 
-function Tune(){}
+
+}
+
+function Tune(info){
+    this.title = info.title;
+    this.path = info.music;
+}
 Tune.prototype = {
+    title:"曲目名",
+    path:"data/music/1.mp3",
     init:function(){
-
+        $("audio").get(0).src = this.path;
+        $("audio").get(0).volume = 0.3;
+        $("h2").text(this.title);
+    },
+    play:function() {
+        $("audio").get(0).play();
+    },
+    pause:function() {
+        $("audio").get(0).pause();
     }
 };
+function Song(){}
+Song.prototype = {
+
+}
 
 function ControllBtn(){
 }
@@ -124,7 +186,6 @@ ControllBtn.prototype = {
     },
     initListener:function(){
         var ctlbtn = this;
-        console.log(ctlbtn);
         eventbus.addEventlistener(constVal.event.TouchIn, function(type, mouse){
             if(Math.sqrt(Math.pow((ctlbtn.origin.x-mouse.x),2), Math.pow((ctlbtn.origin.y-mouse.y),2)) <= ctlbtn.radius) {
                 console.log("In!!");
@@ -157,7 +218,7 @@ Track.prototype = {
         trackMove = this;
         function circleDown(){
             var pass = new Date().getTime()-startTime;
-            if(pass<= animeTime) {
+            if(pass<= animeTime && isPlay) {
                 percent = pass/animeTime;
                 trackMove.ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
                 px = s.x;
@@ -194,7 +255,7 @@ Track.prototype = {
             }
         }
         window.requestAnimFrame(play);
-    },
+    }
 }
 
 function Beat(time) {
@@ -204,45 +265,3 @@ Beat.prototype = {
 
 }
 
-var utils={};
-utils.cpatureMousePosition=function(element){
-    var mouse={x:0,y:0};
-    element.addEventListener("mousedown",function(event){
-        var x,y;
-        if(event.pageX||event.pageY){
-            x=event.pageX;
-            y=event.pageY;
-        }else{
-            x=event.clientX+document.body.scrollLeft+document.documentElement.scrollLeft;
-            y=event.clientY+document.body.scrollTop+document.documentElement.scrollTop;
-        }
-        x-=element.offsetLeft;
-        y-=element.offsetTop;
-        mouse.x=x;
-        mouse.y=y;
-        eventbus.dispatchEvent(constVal.event.TouchIn, mouse)
-    },false);
-    return mouse;
-};
-var eventbus = {
-    eventQueue:{},
-    addEventlistener:function(eventType, callback){
-        if(eventbus.eventQueue[eventType] == null) {eventbus.eventQueue[eventType] = [];}
-        eventbus.eventQueue[eventType].push(callback);
-    },
-    dispatchEvent:function(eventType, eventInfo) {
-        if(eventbus.eventQueue != null &&　eventbus.eventQueue[eventType] != null) {
-            $(eventbus.eventQueue[eventType]).each(function($idx, $cb){
-                $cb(eventType, eventInfo);
-            });
-        }
-    }
-};
-window.requestAnimFrame = (function(){
-    return  window.requestAnimationFrame       ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame    ||
-        function( callback ){
-            window.setTimeout(callback, 1000 / 60);
-        };
-})();

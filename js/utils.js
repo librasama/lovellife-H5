@@ -1,3 +1,4 @@
+
 var utils={};
 utils.cpatureMousePosition=function(element){
     var mouse={x:0,y:0};
@@ -31,8 +32,8 @@ var eventbus = {
             });
         }
     }
-
 };
+
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       ||
         window.webkitRequestAnimationFrame ||
