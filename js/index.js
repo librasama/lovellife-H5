@@ -2,8 +2,6 @@ $(document).ready(
     function(){
         var c = document.getElementById('canvas');
         s = new Director().init(c);
-        cxt = s.ctx;
-        track = s.track;
     }
 );
 
@@ -53,7 +51,7 @@ function Stage(c, w, h, lw){
     this.height = h;
     this.canvas.width= w;
     this.canvas.height= h;
-    this.ctx = canvas.getContext('2d');
+    this.ctx = this.canvas.getContext('2d');
     this.ctx.lineWidth = lw;
 }
 Stage.prototype = {
@@ -62,12 +60,11 @@ Stage.prototype = {
     height:0,
     ctx:{},
     startTime:0,
-    track:{},
     initStage:function() {
         utils.cpatureMousePosition(this.canvas);
         this.initStar(this.ctx, constVal.coord.star, constVal.setting.star, constVal.color.star);
         this.initEventlistener();
-        this.track = new Track().sequential(this.ctx);
+        new Track().sequential(this.ctx);
         return this.ctx;
     },
     initStar:function(cxt, center, r, color) {
@@ -126,8 +123,10 @@ ControllBtn.prototype = {
         this.ctx.stroke();
     },
     initListener:function(){
+        var ctlbtn = this;
+        console.log(ctlbtn);
         eventbus.addEventlistener(constVal.event.TouchIn, function(type, mouse){
-            if(Math.sqrt(Math.pow((origin.x-mouse.x),2), Math.pow((origin.y-mouse.y),2)) <= radius) {
+            if(Math.sqrt(Math.pow((ctlbtn.origin.x-mouse.x),2), Math.pow((ctlbtn.origin.y-mouse.y),2)) <= ctlbtn.radius) {
                 console.log("In!!");
             } else {
                 console.log("Out!!");
@@ -155,17 +154,18 @@ Track.prototype = {
         px = s.x;
         py = s.y;
         pr = constVal.setting.fixArc * 0.5;
+        trackMove = this;
         function circleDown(){
             var pass = new Date().getTime()-startTime;
             if(pass<= animeTime) {
                 percent = pass/animeTime;
-                track.ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
+                trackMove.ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
                 px = s.x;
                 py = s.y+(d.y-s.y)*percent ;
                 pr = constVal.setting.fixArc*(0.5+percent*0.5);
-                track.drawMoveCircle(cxt, px, py, pr, "black");
+                trackMove.drawMoveCircle(cxt, px, py, pr, "black");
                 if(py+pr > constVal.coord.fixArc.y-constVal.setting.fixArc) {
-                    track.btn.draw();
+                    trackMove.btn.draw();
                 }
                 window.requestAnimFrame(circleDown);
             }
@@ -181,20 +181,20 @@ Track.prototype = {
         this.initbeats();
         this.maxIdx = this.beats.length;
         st = new Date().getTime()+constVal.setting.animeTime;
-        window.requestAnimFrame(this.play);
-        return this;
-    },
-    play:function(){
-        if(track.curIdx < track.maxIdx) {
-            curBeat = track.beats[track.curIdx];
-            var pass = new Date().getTime()-st;
-            if(curBeat.rightTime <= pass) {
-                track.curIdx++;
-                track.moveAnime(track.ctx, constVal.coord.moveArcS, constVal.coord.moveArcE, constVal.setting.animeTime);
+        var track = this;
+        function play(){
+            if(track.curIdx < track.maxIdx) {
+                curBeat = track.beats[track.curIdx];
+                var pass = new Date().getTime()-st;
+                if(curBeat.rightTime <= pass) {
+                    track.curIdx++;
+                    track.moveAnime(track.ctx, constVal.coord.moveArcS, constVal.coord.moveArcE, constVal.setting.animeTime);
+                }
+                window.requestAnimFrame(play);
             }
-            window.requestAnimFrame(track.play);
         }
-    }
+        window.requestAnimFrame(play);
+    },
 }
 
 function Beat(time) {
@@ -237,7 +237,6 @@ var eventbus = {
             });
         }
     }
-
 };
 window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       ||
