@@ -1,37 +1,21 @@
 $(document).ready(
     function(){
-        var c = document.getElementById('canvas');
-        var d = new Director(c);
-        d.init(0);
+        $.getJSON("data/config.json", function(data){
+            constVal = data;
+            canvas = document.getElementById('canvas');
+            context = canvas.getContext("2d");
+            var d = new Director(canvas);
+            d.init(0);
+        });
     }
 );
+var canvas ;
+var context;
 var isPlay = false;
-var constVal = {
-    coord : {
-        star:{x:400, y:100},
-        fixArc:[{x:200, y:550}, {x:300, y:550}, {x:400, y:550}, {x:500, y:550}, {x:600, y:550}],
-        moveArcS:{x:400, y:150},
-        moveArcE:[{x:170, y:614},{x:284, y:614},{x:400, y:614},{x:518, y:614},{x:630, y:614}],
-        hitLabel:{x:400, y:350}
-    },
-    color : {
-        fixArc:"red",
-        star:"sienna"
-    },
-    setting : {
-        fixArc:30,
-        star:50,
-        animeTime:2000
-    },
-    event:{
-        TouchIn:"touchin",
-        TouchOut:"touchOut",
-        Play:"Play",
-        Pause:"Pause",
-        TunesLoaded:"TunesLoaded",
-        TunesInited:"TunesInited"
-    }
-}
+var startTime;
+var pauseTime;
+var addOnTime = 0;
+var constVal = {};
 
 function Director(canvas){
     this.c = canvas;
@@ -43,19 +27,31 @@ Director.prototype = {
     c:null,
     stage:null,
     tune:null,
-    pauseTimestamp:new Date().getTime(),
-    startTimestamp:new Date().getTime(),
     currentSecond:0,
     init:function(i) {
         this.tune = new Tune(stage, i);
-        initPlaybtn();
+        $("#playbtn").on("click", function() {
+            addOnTime += new Date().getTime() - pauseTime;
+            eventbus.dispatchEvent($("audio").get(0).paused ? constVal.event.RePlay : constVal.event.Pause, {"addOn":addOnTime});
+        });
     },
-
     pause:function(){
-        this.stage.pause();
+        pauseTime = new Date().getTime();
+        $("#playbtn").val("播放");
+        $("audio").get(0).pause();
+        isPlay = false;
     },
     play:function(){
         this.tune.play();
+        $("#playbtn").val("暂停");
+        $("audio").get(0).play();
+        isPlay = true;
+    },
+    replay:function() {
+        startTime = new Date().getTime();
+        $("#playbtn").val("暂停");
+        $("audio").get(0).play();
+        isPlay = true;
     },
     isEnd:function(){},
     initEventlistener:function(){
@@ -63,7 +59,13 @@ Director.prototype = {
         eventbus.addEventlistener(constVal.event.TunesInited, function(type,info){
             theDirector.tune = info;
             theDirector.play();
-        })
+        });
+        eventbus.addEventlistener(constVal.event.Pause, function(type,info){
+            theDirector.pause();
+        });
+        eventbus.addEventlistener(constVal.event.RePlay, function(type,info){
+            theDirector.replay();
+        });
     }
 }
 
@@ -82,7 +84,6 @@ Stage.prototype = {
     width:0,
     height:0,
     ctx:{},
-    startTime:0,
     ctlBtns:[],
     tracks:[],
     initStage:function() {
@@ -116,7 +117,7 @@ Stage.prototype = {
         eventbus.addEventlistener(constVal.event.TouchIn, function(type, mouse){
             console.log("x:"+mouse.x+";y:"+mouse.y);
         });
-        eventbus.addEventlistener(constVal.event.Play, function(type, info){
+        eventbus.addEventlistener(constVal.event.RePlay, function(type, info){
 
         });
         eventbus.addEventlistener(constVal.event.Pause, function(type, info){
@@ -131,34 +132,14 @@ Stage.prototype = {
             btn.init(sctx, $item, constVal.setting.fixArc, constVal.color.fixArc);
             stage.ctlBtns.push(btn);
         });
-    },
-    play:function() {
-
-    },
-    pause:function() {
-
     }
-}
-function initPlaybtn() {
-    $("#playbtn").on("click", function() {
-        if($("audio").get(0).paused) {
-            eventbus.dispatchEvent(constVal.event.Play, {"time":new Date().getTime()});
-            $("#playbtn").val("暂停");
-            $("audio").get(0).play();
-            isPlay = true;
-        } else {
-            eventbus.dispatchEvent(constVal.event.Pause, {"time":new Date().getTime()});
-            $("#playbtn").val("播放");
-            $("audio").get(0).pause();
-            isPlay = false;
-        }
-    });
 }
 function ControllBtn(){}
 ControllBtn.prototype = {
     ctx:{},
     origin:{},
     radius:0,
+    curBeat:{},
     init:function(ctx, origin, radius, color) {
         this.ctx = ctx;
         this.origin = origin;
@@ -178,15 +159,18 @@ ControllBtn.prototype = {
         var ctlbtn = this;
         eventbus.addEventlistener(constVal.event.TouchIn, function(type, mouse){
             if(Math.sqrt(Math.pow((ctlbtn.origin.x-mouse.x),2), Math.pow((ctlbtn.origin.y-mouse.y),2)) <= ctlbtn.radius) {
-                console.log("In!!");
-            } else {
-                console.log("Out!!");
+                offset = Math.abs(new Date().getTime()-startTime-ctlbtn.curBeat.rightTime);
+                var i=0;
+                for(;i<ctlbtn.curBeat.judge.length;i++) {
+                    if(offset < parseInt(ctlbtn.curBeat.judge[i]))  break;
+                }
+                ctlbtn.curBeat.hit=i;
             }
         });
 
     }
 };
-function Track(id, from, to, ctx, ctrBtn){
+function Track(id, from, to, ctx, ctrBtn, judge){
     this.id = id;
     this.btn = ctrBtn;
     this.beats = [];
@@ -194,7 +178,7 @@ function Track(id, from, to, ctx, ctrBtn){
         var item = tunes.tracks[i];
         if(item.id == this.id) {
             for(var j=0;j<item.beats.length;j++) {
-                this.beats.push(new Beat(ctx, ctrBtn, item.beats[j], from, to));
+                this.beats.push(new Beat(ctx, ctrBtn, item.beats[j], from, to, judge));
             }
         }
     }
@@ -206,21 +190,14 @@ Track.prototype = {
     curIdx :0,
     maxIdx:0,
     stime:0,
-    onPlay:function() {
-
-    },
-    onPause:function() {
-
-    },
     play:function() {
-        st = new Date().getTime()+constVal.setting.animeTime;
         var track = this;
         function go(){
             with(track) {
                 if(curIdx < maxIdx) {
                     curBeat = beats[track.curIdx];
-                    var pass = new Date().getTime()-st;
-                    if(curBeat.rightTime <= pass) {
+                    var pass = constVal.setting.animeTime+new Date().getTime()-startTime-addOnTime;
+                    if(curBeat.rightTime <= pass && isPlay) {
                         curIdx++;
                         curBeat.moveAnime(new Date().getTime(), constVal.setting.animeTime);
                     }
@@ -270,6 +247,7 @@ Tune.prototype = {
         });
         isPlay = true;
         $("audio").get(0).play();
+        startTime = new Date().getTime();
     },
     pause:function() {
         $("audio").get(0).pause();
@@ -284,7 +262,7 @@ Tune.prototype = {
         $("audio").get(0).src = this.path;
         $("audio").get(0).volume = 0.3;
         $("h2").text(this.title);
-        this.initTracks(data.tracks);
+        this.initTracks(data.tracks, data.judge);
         eventbus.dispatchEvent(constVal.event.TunesInited, this);
     },
     initEventlistener:function(){
@@ -295,18 +273,18 @@ Tune.prototype = {
             }
         });
     },
-    initTracks:function(trackIds) {
+    initTracks:function(trackIds, judge) {
         tune = this;
         s = tune.stage;
         $(constVal.coord.moveArcE).each(function($index, $item){
-            tune.tracks.push(new Track(trackIds[$index],constVal.coord.moveArcS, $item, s.ctx, s.ctlBtns[$index]));
+            tune.tracks.push(new Track(trackIds[$index],constVal.coord.moveArcS, $item, s.ctx, s.ctlBtns[$index], judge));
         });
     }
 
 };
 
 
-function Beat(ctx, btn, data, from ,to) {
+function Beat(ctx, btn, data, from ,to, judge) {
     this.ctx = ctx;
     this.btn = btn;
     this.type = data.type;
@@ -317,6 +295,8 @@ function Beat(ctx, btn, data, from ,to) {
     this.py = s.y;
     this.pr = constVal.setting.fixArc * 0.5;
     this.dis = Math.sqrt(Math.pow((from.x - to.x), 2)+Math.pow((from.y - to.y), 2));
+    this.judge = judge;
+    this.initEventlistener();
 }
 Beat.prototype = {
     type:"normal",
@@ -327,12 +307,17 @@ Beat.prototype = {
     py:0,
     pr:0,
     dis:0,
+    st:0,
+    judge:{},
+    hit:4,
     moveAnime:function(st, animeTime) {
+        this.st = st;
+        //console.log("starttime:"+this.st);
+        this.btn.curBeat = this;
         var trackMove = this;
         function circleDown(){
             with(trackMove) {
                 var pass = new Date().getTime()-st;
-                //console.log(rightTime+": x="+px+", y="+py + ",d.x="+ d.x + ",d.y="+ d.y);
                 if(pass<= animeTime && isPlay) {
                     percent = pass/animeTime;
                     ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
@@ -345,8 +330,13 @@ Beat.prototype = {
                     }
                     window.requestAnimFrame(circleDown);
                 } else if(pass> animeTime) {
+                    //清算结果
                     ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
                     btn.draw();
+                    evalue();
+                    delete this;
+                } else {
+                    window.requestAnimFrame(circleDown);
                 }
             }
         };
@@ -358,6 +348,21 @@ Beat.prototype = {
         this.ctx.arc(x, y, r, 0 , 2*Math.PI, true);
         this.ctx.closePath();
         this.ctx.stroke();
+    },
+    initEventlistener:function() {
+        eventbus.addEventlistener(constVal.event.RePlay, function(type, info){
+            this.st += info.addOn;
+        });
+    },
+    evalue:function(){
+        i = this.hit;
+        console.log(offset+"，判定："+constVal.level[i]);
+        context.font="24px Arial bold";//定义字体样式
+        context.fillStyle="blue";
+        context.fillText(constVal.level[i], constVal.coord.hitLabel.x, constVal.coord.hitLabel.y);
+        $("#score").text(parseInt($("#score").text()) + constVal.score[i]);
+        setTimeout(function(){
+            context.clearRect(constVal.coord.hitLabel.x-20, constVal.coord.hitLabel.y-20, 200, 60);
+        },300);
     }
 }
-

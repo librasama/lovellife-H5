@@ -1,0 +1,28 @@
+{
+  "coord" : {
+    "star":{"x":400, "y":150},
+    "fixArc":[{"x":200, "y":550}, {"x":300, "y":550}, {"x":400, "y":550}, {"x":500, "y":550}, {"x":600, "y":550}],
+    "moveArcS":{"x":400, "y":200},
+    "moveArcE":[{"x":170, "y":614},{"x":284, "y":614},{"x":400, "y":614},{"x":518, "y":614},{"x":630, "y":614}],
+    "hitLabel":{"x":380, "y":50}
+  },
+  "color" : {
+    "fixArc":"red",
+    "star":"sienna"
+  },
+  "setting" : {
+    "fixArc":30,
+    "star":50,
+    "animeTime":3000
+  },
+  "event":{
+    "TouchIn":"touchin",
+    "TouchOut":"touchOut",
+    "RePlay":"RePlay",
+    "Pause":"Pause",
+    "TunesLoaded":"TunesLoaded",
+    "TunesInited":"TunesInited"
+  },
+  "level":["perfect", "great", "good", "bad", "miss"],
+  "score":[400, 300, 200, 100, 0]
+}
