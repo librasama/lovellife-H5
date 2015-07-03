@@ -16,9 +16,10 @@ var startTime;
 var pauseTime;
 var addOnTime = 0;
 var constVal = {};
-
+var statics={};
 function Director(canvas){
     this.c = canvas;
+    statics = {perfect:0, great:0, good:0,bad:0,miss:0};
     this.stage = new Stage(canvas, 800, 640, 2);
     this.stage.initStage();
     this.initEventlistener();
@@ -31,7 +32,7 @@ Director.prototype = {
     init:function(i) {
         this.tune = new Tune(stage, i);
         $("#playbtn").on("click", function() {
-            addOnTime += new Date().getTime() - pauseTime;
+            //addOnTime += new Date().getTime() - pauseTime;
             eventbus.dispatchEvent($("audio").get(0).paused ? constVal.event.RePlay : constVal.event.Pause, {"addOn":addOnTime});
         });
     },
@@ -48,7 +49,8 @@ Director.prototype = {
         isPlay = true;
     },
     replay:function() {
-        startTime = new Date().getTime();
+        addOnTime = new Date().getTime() - pauseTime;
+        console.log("addOnTime:"+addOnTime);
         $("#playbtn").val("暂停");
         $("audio").get(0).play();
         isPlay = true;
@@ -164,7 +166,9 @@ ControllBtn.prototype = {
                 for(;i<ctlbtn.curBeat.judge.length;i++) {
                     if(offset < parseInt(ctlbtn.curBeat.judge[i]))  break;
                 }
+                console.log(offset+"，判定："+constVal.level[i]);
                 ctlbtn.curBeat.hit=i;
+                ctlbtn.curBeat.hitted = true;
             }
         });
 
@@ -187,6 +191,7 @@ function Track(id, from, to, ctx, ctrBtn, judge){
 Track.prototype = {
     id:0,
     beats:[],
+    curBeats:[],
     curIdx :0,
     maxIdx:0,
     stime:0,
@@ -196,16 +201,24 @@ Track.prototype = {
             with(track) {
                 if(curIdx < maxIdx) {
                     curBeat = beats[track.curIdx];
-                    var pass = constVal.setting.animeTime+new Date().getTime()-startTime-addOnTime;
-                    if(curBeat.rightTime <= pass && isPlay) {
+                    if((curBeat.rightTime+startTime+addOnTime <= constVal.setting.animeTime+new Date().getTime()) && isPlay) {
                         curIdx++;
+                        curBeats.push(curBeat);
                         curBeat.moveAnime(new Date().getTime(), constVal.setting.animeTime);
+                    } else if(!isPlay){
+                        $(curBeats).each(function($index, $item){
+                            if($item != null)
+                            $item.paused = true;
+                        });
                     }
                     window.requestAnimFrame(go);
                 }
             }
         }
         window.requestAnimFrame(go);
+    },
+    initEventlistener:function(){
+
     }
 }
 var tunes = {
@@ -307,19 +320,20 @@ Beat.prototype = {
     py:0,
     pr:0,
     dis:0,
-    st:0,
     judge:{},
     hit:4,
+    hitted:false,
+    paused:false,
     moveAnime:function(st, animeTime) {
-        this.st = st;
-        //console.log("starttime:"+this.st);
         this.btn.curBeat = this;
         var trackMove = this;
         function circleDown(){
             with(trackMove) {
                 var pass = new Date().getTime()-st;
-                if(pass<= animeTime && isPlay) {
+                if(paused) pass-=addOnTime;
+                if(pass<= animeTime && isPlay && !hitted) {
                     percent = pass/animeTime;
+                    //console.log("percent:"+percent);
                     ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
                     px = s.x +(d.x-s.x)*percent;
                     py = s.y +(d.y-s.y)*percent ;
@@ -329,7 +343,7 @@ Beat.prototype = {
                         btn.draw();
                     }
                     window.requestAnimFrame(circleDown);
-                } else if(pass> animeTime) {
+                } else if(isPlay && (hitted || (pass> animeTime))) {
                     //清算结果
                     ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
                     btn.draw();
@@ -356,7 +370,6 @@ Beat.prototype = {
     },
     evalue:function(){
         i = this.hit;
-        console.log(offset+"，判定："+constVal.level[i]);
         context.font="24px Arial bold";//定义字体样式
         context.fillStyle="blue";
         context.fillText(constVal.level[i], constVal.coord.hitLabel.x, constVal.coord.hitLabel.y);
@@ -364,5 +377,7 @@ Beat.prototype = {
         setTimeout(function(){
             context.clearRect(constVal.coord.hitLabel.x-20, constVal.coord.hitLabel.y-20, 200, 60);
         },300);
+        statics[constVal.level[i]]++;
+        console.log(statics);
     }
 }
