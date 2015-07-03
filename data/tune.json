@@ -1,12 +1,12 @@
 {
   "tunes":[
-    {"id":1,"tracks":[1,2,3], "title":"【GUMI】被害妄想携帯女子(笑)", "music":"data/music/1.mp3"},
-    {"id":2,"tracks":[4,5,6], "title":"【西野カナ】もっと…", "music":"data/music/2.mp3"},
-    {"id":3,"tracks":[7,8,9], "title":"【贝多芬】悲怆奏鸣曲第三乐章 病毒 摇滚版", "music":"data/music/3.mp3"}
+    {"id":1,"tracks":[1,2,3,4,5], "title":"【GUMI】被害妄想携帯女子(笑)", "music":"data/music/1.mp3"}
   ],
   "tracks":[
-    {"id":1, "beats":[{"type":"normal", "time":1000},{"type":"normal", "time":2000}, {"type":"normal", "time":3000}]},
-    {"id":2, "beats":[{"type":"normal", "time":1500},{"type":"normal", "time":2500}, {"type":"normal", "time":3500}]},
-    {"id":3, "beats":[{"type":"normal", "time":2000},{"type":"normal", "time":3000}, {"type":"normal", "time":4500}]}
+    {"id":1, "beats":[{"type":"normal", "time":1000},{"type":"normal", "time":6000}, {"type":"normal", "time":10000}]},
+    {"id":2, "beats":[{"type":"normal", "time":1500},{"type":"normal", "time":5500}, {"type":"normal", "time":8000}]},
+    {"id":3, "beats":[{"type":"normal", "time":2000},{"type":"normal", "time":5000}, {"type":"normal", "time":8000}]},
+    {"id":4, "beats":[{"type":"normal", "time":2500},{"type":"normal", "time":4500}, {"type":"normal", "time":9000}]},
+    {"id":5, "beats":[{"type":"normal", "time":3000},{"type":"normal", "time":4000}, {"type":"normal", "time":9500}]}
   ]
 }

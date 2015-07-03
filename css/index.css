@@ -3,6 +3,7 @@
     background:aliceblue;
     margin:0 auto;
     display: block;
+    cursor:pointer;
 }
 audio {
     width:100%;
