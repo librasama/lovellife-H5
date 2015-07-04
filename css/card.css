@@ -1,0 +1,47 @@
+body {
+    text-align: center;
+}
+.main > div {
+    width:100%;
+}
+.tabs {
+    margin:0 auto;
+    width:1000px;
+}
+.tab {
+    display: none;
+    border:3px solid oldlace;
+    height:600px;
+    width: 100%;
+    float: left;
+}
+.tabs .on {
+    display: block;
+}
+.tab-titles {
+    font-size:0;
+    width: 100%;
+    float: left;
+    text-align: left;
+}
+.tab-titles .on {
+    background:lightgray;
+    display: inline-block;
+}
+.tab-title {
+    width:100px;
+    display: inline-block;
+    font-weight: 700;
+    font-size:24px;
+    padding-left:10px;
+    border:1px solid gainsboro;
+    background: lavender;
+    cursor:pointer;
+}
+
+.tab-title:first-child {
+    border-top-left-radius: 6px;
+}
+.tab-title:last-child {
+    border-top-right-radius: 6px;
+}

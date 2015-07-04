@@ -182,11 +182,12 @@ function Track(id, from, to, ctx, ctrBtn, judge){
         var item = tunes.tracks[i];
         if(item.id == this.id) {
             for(var j=0;j<item.beats.length;j++) {
-                this.beats.push(new Beat(ctx, ctrBtn, item.beats[j], from, to, judge));
+                this.beats.push(new Beat(this, ctx, ctrBtn, item.beats[j], from, to, judge));
             }
         }
     }
     this.maxIdx = this.beats.length;
+    this.addEventListener();
 }
 Track.prototype = {
     id:0,
@@ -201,13 +202,13 @@ Track.prototype = {
             with(track) {
                 if(curIdx < maxIdx) {
                     curBeat = beats[track.curIdx];
-                    if((curBeat.rightTime+startTime+addOnTime <= constVal.setting.animeTime+new Date().getTime()) && isPlay) {
+                    var now = new Date().getTime();
+                    if((curBeat.rightTime+startTime+addOnTime <= constVal.setting.animeTime+now) && isPlay) {
                         curIdx++;
                         curBeats.push(curBeat);
-                        curBeat.moveAnime(new Date().getTime(), constVal.setting.animeTime);
-                    } else if(!isPlay){
+                        curBeat.moveAnime(now, constVal.setting.animeTime);
+                    } else if(!isPlay) {
                         $(curBeats).each(function($index, $item){
-                            if($item != null)
                             $item.paused = true;
                         });
                     }
@@ -217,8 +218,11 @@ Track.prototype = {
         }
         window.requestAnimFrame(go);
     },
-    initEventlistener:function(){
-
+    addEventListener:function() {
+        t = this;
+        eventbus.addEventlistener(constVal.event.Pause, function(type, info){
+            console.log(t.curBeats);
+        });
     }
 }
 var tunes = {
@@ -297,7 +301,8 @@ Tune.prototype = {
 };
 
 
-function Beat(ctx, btn, data, from ,to, judge) {
+function Beat(track, ctx, btn, data, from ,to, judge) {
+    this.track = track;
     this.ctx = ctx;
     this.btn = btn;
     this.type = data.type;
@@ -316,6 +321,7 @@ Beat.prototype = {
     rightTime:0,
     ctx:{},
     btn:{},
+    track:{},
     px:0,
     py:0,
     pr:0,
@@ -330,8 +336,8 @@ Beat.prototype = {
         function circleDown(){
             with(trackMove) {
                 var pass = new Date().getTime()-st;
-                if(paused) pass-=addOnTime;
-                if(pass<= animeTime && isPlay && !hitted) {
+                if(paused) {pass-=addOnTime;console.log("xxxxxxxxxx");}
+                if(isPlay && !hitted && pass<= animeTime) {
                     percent = pass/animeTime;
                     //console.log("percent:"+percent);
                     ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
@@ -348,7 +354,11 @@ Beat.prototype = {
                     ctx.clearRect(px-pr-2, py-pr-2, 2*pr+4, 2*pr+4);
                     btn.draw();
                     evalue();
+                    track.curBeats.splice(0,1);
                     delete this;
+                } else if(!isPlay) {
+                    paused = true;
+                    window.requestAnimFrame(circleDown);
                 } else {
                     window.requestAnimFrame(circleDown);
                 }
@@ -378,6 +388,11 @@ Beat.prototype = {
             context.clearRect(constVal.coord.hitLabel.x-20, constVal.coord.hitLabel.y-20, 200, 60);
         },300);
         statics[constVal.level[i]]++;
-        console.log(statics);
+        //console.log(statics);
     }
 }
+
+function Player(){}
+Player.prototype = {
+    initPower:10
+};
