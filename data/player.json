@@ -4,12 +4,16 @@
 
   ],
   "team":[
-    {"id":1, "name":"Maki梦之队Cool", "type":"C", "member":[{"cardid":1, "level":1},
-      {"cardid":2, "level":3},{"cardid":3, "level":3},{"cardid":2, "level":2},{"cardid":1, "level":3}]}
+    {"id":1, "name":"Maki红射穿你的心", "type":"S", "member":[{"cardid":1, "level":1},
+      {"cardid":1, "level":3},{"cardid":2, "level":3},{"cardid":2, "level":2},{"cardid":1, "level":3}]},
+    {"id":2, "name":"纯情傲娇黑他累", "type":"P", "member":[{"cardid":1, "level":2},
+      {"cardid":1, "level":3},{"cardid":1, "level":3},{"cardid":1, "level":2},{"cardid":1, "level":3}]},
+    {"id":3, "name":"西木野综合池面病栋", "type":"C", "member":[{"cardid":3, "level":2},
+      {"cardid":3, "level":3},{"cardid":3, "level":3},{"cardid":3, "level":2},{"cardid":3, "level":3}]}
   ],
   "card":[
-    {"id":1, "maxLevel":5, "type":"S", "title":"普通社员A", "power":[1,1,1,2,2], "S":[1000,1100,1200,1300,1400], "C":[100,110,120,130,140], "P":[100,110,120,130,140]},
-    {"id":2, "maxLevel":5, "type":"P", "title":"普通社员B", "power":[1,1,1,2,2], "S":[100,110,120,130,140], "C":[100,110,120,130,140], "P":[1000,1100,1200,1300,1400]},
-    {"id":3, "maxLevel":5, "type":"C", "title":"Maki池面小天使", "power":[1,1,1,2,2], "S":[500,510,520,530,540], "C":[1000,2000,3000,4000,5000], "P":[500,510,520,530,540]}
+    {"id":1, "maxLevel":5, "type":"S", "title":"Makih甜心", "path":"image/1.jpg", "power":[1,1,1,2,2], "S":[1000,1100,1200,1300,1400], "C":[100,110,120,130,140], "P":[100,110,120,130,140]},
+    {"id":2, "maxLevel":5, "type":"P", "title":"Maki小天使", "path":"image/2.jpg","power":[1,1,1,2,2], "S":[100,110,120,130,140], "C":[100,110,120,130,140], "P":[1000,1100,1200,1300,1400]},
+    {"id":3, "maxLevel":5, "type":"C", "title":"Maki池池池", "path":"image/3.png","power":[1,1,1,2,2], "S":[500,510,520,530,540], "C":[1000,2000,3000,4000,5000], "P":[500,510,520,530,540]}
   ]
 }

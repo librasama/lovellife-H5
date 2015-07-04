@@ -6,35 +6,101 @@
   <link type="text/css" rel="stylesheet" href="css/card.css">
   <script src="node_modules/jquery/dist/jquery.min.js"></script>
   <script type="text/javascript" src="js/card.js"></script>
+  <script type="text/javascript" src="js/firework.js"></script>
   <title>宅喵喵</title>
 </head>
 <body>
-  <header><h1>卡牌一览</h1></header>
+  <header><h1>LoveLlife!</h1><canvas id ="canvas"/></header>
   <div class="wrapper">
     <div class="main">
-      <div class="player">
-        <h2>玩家信息</h2>
-        <div class="line">
-          <span class="left">玩家名</span>
-          <span class="right">Aki</span>
+      <div class="nav">
+        <div class="nav-bar">
+            <span>玩家信息>>卡组一览</span>
+        </div>
+        <h2>Akitech</h2>
+        <h3>西木野达人</h3>
+        <a>40张</a>
         </div>
       </div>
-      <div class="team">
-        <h2>队伍信息</h2>
-        <div class="tabs">
-          <div class="tab-titles">
-            <span class="tab-title on" tab-rel="1">A</span>
-            <span class="tab-title" tab-rel="2">B</span>
-            <span class="tab-title" tab-rel="3">C</span>
+      <div class="info">
+        <div class="team">
+          <h2>队伍信息</h2>
+          <div class="tabs">
+            <div class="tab-titles">
+              <span class="tab-title on" tab-rel="1">A</span>
+              <span class="tab-title" tab-rel="2">B</span>
+              <span class="tab-title" tab-rel="3">C</span>
+            </div>
+            <div class="tab on">
+              <div class="line">
+                <span class="left">队伍名</span>
+                <span class="right">Maki队</span>
+              </div>
+              <div class="line">
+                <span class="left">队伍属性</span>
+                <span class="right">Cool</span>
+              </div>
+              <div class="grid">
+                <a class="member">
+                  <img src="image/1.jpg"/>
+                  <span>等级1</span>
+                </a>
+                <a class="member">
+                  <img src="image/1.jpg"/>
+                  <span>等级1</span>
+                </a>
+                <a class="member">
+                  <img src="image/1.jpg"/>
+                  <span>等级1</span>
+                </a>
+                <a class="member">
+                  <img src="image/1.jpg"/>
+                  <span>等级1</span>
+                </a>
+                <a class="member">
+                  <img src="image/1.jpg"/>
+                  <span>等级1</span>
+                </a>
+              </div>
+            </div>
+            <div class="tab">bbb</div>
+            <div class="tab">ccc</div>
           </div>
-          <div class="tab on">
-            aaaaa
+        </div>
+        <div class="card">
+          <h2>卡片信息</h2>
+          <div class="flip-container" ontouchstart="this.classList.toggle('hover');">
+            <div class="flipper">
+              <div class="front">
+              </div>
+              <div class="back">
+              </div>
+            </div>
           </div>
-          <div class="tab">bbb</div>
-          <div class="tab">ccc</div>
+          <div class="cardinfo">
+            <div class="line">
+              <span class="left">等级</span>
+              <span id="level" class="right">2</span>
+            </div>
+            <div class="line">
+              <span class="left">属性</span>
+              <span id="type" class="right">Smile</span>
+            </div>
+            <div class="line">
+              <span class="left">体力</span>
+              <span id="power" class="right">5</span>
+            </div>
+            <div class="line">
+              <span class="left">各项数值</span>
+              <span id="val" class="right">50 100 50</span>
+            </div>
+            <div class="line">
+              <span class="left">技能</span>
+              <span id="skill" class="right">射穿你的心</span>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="card"></div>
     </div>
   </div>
 </body>

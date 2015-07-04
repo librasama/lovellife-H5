@@ -1,19 +1,78 @@
+@import "3part/filper.css";
 body {
     text-align: center;
+    background-color: antiquewhite;
+    font-family: 'Microsoft YaHei',Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;
+}
+header {
+    background: url('../image/layout/top-banner1.jpg') no-repeat;
+    height:350px;
+    background-size: cover;
+}
+header h1 {
+    padding-top: 8px;
+    color: orange;
+    width: 50%;
+    font-family: fantasy;
 }
 .main > div {
-    width:100%;
+    margin: auto;
+}
+#canvas {
+    float: left;
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+    top: -10px;
+}
+.nav {
+    background-image: -webkit-gradient(radial, center center, 0, center center, 220, from(rgb(239, 238, 234)), to(rgb(207, 184, 143)));
+    background-image: -webkit-radial-gradient(rgb(239, 238, 234),rgb(207, 184, 143));
+    background-image: radial-gradient(rgb(239, 238, 234),rgb(207, 184, 143));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    text-align: right;
+}
+.nav h2 {
+    color: rgba(116, 24, 24, 0.55);;
+    text-align: left;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-family: cursive;
+}
+.nav a {  padding-right: 30px;}
+.nav >* {display: inline-block;}
+.nav-bar {
+    float: left;
+    padding-left: 10%;
+    color: azure;
+    font-size: 24px;
+    padding-top: 18px;
+    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+}
+.line {
+    margin:20px 0;
+}
+.line .left {
+    display:inline-block;
+    width:150px;
+    height:30px;
+}
+.line .left:after {
+    content: ":";
 }
 .tabs {
     margin:0 auto;
-    width:1000px;
+    width:100%;
+    max-width:480px;
 }
 .tab {
     display: none;
-    border:3px solid oldlace;
-    height:600px;
     width: 100%;
     float: left;
+    text-align: left;
+    padding-left:10px;
+    padding-bottom:40px;
 }
 .tabs .on {
     display: block;
@@ -23,10 +82,12 @@ body {
     width: 100%;
     float: left;
     text-align: left;
+    padding-left:10px;
 }
 .tab-titles .on {
-    background:lightgray;
+    background:burlywood;
     display: inline-block;
+    color: antiquewhite;
 }
 .tab-title {
     width:100px;
@@ -35,8 +96,9 @@ body {
     font-size:24px;
     padding-left:10px;
     border:1px solid gainsboro;
-    background: lavender;
+    background: rgb(228, 221, 195);
     cursor:pointer;
+    color: burlywood;
 }
 
 .tab-title:first-child {
@@ -44,4 +106,80 @@ body {
 }
 .tab-title:last-child {
     border-top-right-radius: 6px;
+}
+.tab .grid .member {
+    display: inline-block;
+}
+
+.tab .grid .member {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.tab .grid .member span {
+    display: block;
+    text-align:center;
+    padding-top:10px;
+}
+
+.member img {
+    width:80px;
+    height:80px;
+    max-width:100%;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1px solid yellow;
+    display:inline-block;
+}
+.main {
+    margin:0 auto;
+}
+.info {
+    display: flex;
+    padding-top:40px;
+    margin:0 auto;
+    background-color: floralwhite;
+}
+.team {
+    display: inline-block;
+    border:1px solid darkgoldenrod;
+    border-radius: 20px;
+    width: 30%;
+    text-align: center;
+    margin-left: 10%;
+    background-color: lightyellow;
+    box-shadow: 2px 1px 10px #8E7042;
+}
+.card h2, .team h2 {
+    text-align: left;
+    padding-left: 20px;
+    text-shadow: 1px 1px saddlebrown;
+    font-family: Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;
+}
+.team h2 {
+    color:burlywood;
+}
+.card h2 {
+    color: coral;
+}
+.card {
+    display: inline-block;
+    width: 45%;
+    margin: 0 5%;
+    border: 1px solid red;
+    border-radius: 20px;
+    background-color: cornsilk;
+    box-shadow: -2px -2px 20px #F94C4C;
+}
+
+.card img {
+    width:500px;
+    max-width: 500px;
+    min-width: 200px;
+}
+
+.cardinfo {
+    text-align: left;
+    display: inline-block;
+    font-size: 24px;
 }
