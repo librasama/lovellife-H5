@@ -5,9 +5,9 @@ body {
     font-family: 'Microsoft YaHei',Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;
 }
 header {
-    background: url('../images/layout/top-banner1.jpg') no-repeat;
-    height:350px;
-    background-size: cover;
+    background: url('../images/layout/top-banner1.jpg') no-repeat top center;
+    height:200px;
+    background-size: 80%;
 }
 header h1 {
     padding-top: 8px;
@@ -29,9 +29,12 @@ header h1 {
     background-image: -webkit-gradient(radial, center center, 0, center center, 220, from(rgb(239, 238, 234)), to(rgb(207, 184, 143)));
     background-image: -webkit-radial-gradient(rgb(239, 238, 234),rgb(207, 184, 143));
     background-image: radial-gradient(rgb(239, 238, 234),rgb(207, 184, 143));
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
     text-align: right;
+    height:40px;
+    position: relative;
+    width: 80%;
 }
 .nav h2 {
     color: rgba(116, 24, 24, 0.55);;
@@ -39,15 +42,21 @@ header h1 {
     padding-left: 20px;
     padding-right: 20px;
     font-family: cursive;
+    top: -15px;
+    right: 240px;
 }
+.nav h3 {  right: 140px;
+    top: -8px;}
 .nav a {  padding-right: 30px;}
-.nav >* {display: inline-block;}
+.nav span {  right: 90px;
+    top: 15px;}
+.nav >* {display: inline-block;position: absolute;}
 .nav-bar {
-    float: left;
+    left:0;
     padding-left: 10%;
     color: azure;
-    font-size: 24px;
-    padding-top: 18px;
+    font-size: 20px;
+    padding-top: 6px;
     font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 }
 .line {
@@ -57,6 +66,9 @@ header h1 {
     display:inline-block;
     width:150px;
     height:30px;
+}
+.line .right {
+    display:inline-block;
 }
 .line .left:after {
     content: ":";
@@ -100,7 +112,9 @@ header h1 {
     cursor:pointer;
     color: burlywood;
 }
-
+.tab-titles span {
+    font-size: 16px;
+}
 .tab-title:first-child {
     border-top-left-radius: 6px;
 }
