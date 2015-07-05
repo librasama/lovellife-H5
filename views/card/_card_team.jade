@@ -1,0 +1,22 @@
+.team
+	h2 队伍信息
+	.tabs
+		.tab-titles
+			span.tab-title.on(tab-rel='1') A
+			span.tab-title(tab-rel='2') B
+			span.tab-title(tab-rel='3') C
+		.tab.on
+			+tab
+		.tab aaa
+		.tab bbb
+
+mixin tab
+	.line
+		.left 队伍名
+		.right Maki队
+	.grid
+		- var n = 0
+		while n<5
+			a.member
+				img(src='images/1.jpg')
+				span 等级#{n++}

@@ -1,0 +1,20 @@
+extends llayout
+block myhead
+	script(type='text/javascript' src='javascripts/card.js')
+	script(type='text/javascript' src='javascripts/firework.js')
+	link(href='stylesheets/card.css' rel='stylesheet')
+block content
+	header
+		h1 Lovellife!
+		canvas(id='canvas')
+	.wrapper
+		.main
+			.nav
+				.nav-bar
+					span 玩家信息>>卡组一览
+				h2 Akitech
+				h3 西木野达人
+				span 40张
+			.info
+				include card/_card_team
+				include card/_card_card

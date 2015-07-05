@@ -19,7 +19,6 @@
 .flipper {
     transition: 0.6s;
     transform-style: preserve-3d;
-
     position: relative;
 }
 
@@ -34,14 +33,14 @@
 /* front pane, placed above back */
 .front {
     z-index: 2;
-    background:url('../../image/1.jpg') 0 0 no-repeat;
+    background:url('../../images/1.jpg') 0 0 no-repeat;
     background-size: cover;
 }
 
 /* back, initially hidden pane */
 .back {
     transform: rotateY(180deg);
-    background:url('../../image/2.jpg') 0 0 no-repeat;
+    background:url('../../images/2.jpg') 0 0 no-repeat;
     background-size: cover;
 
 }

@@ -1,0 +1,17 @@
+extends llayout
+block myhead
+	script(type='text/javascript' src='javascripts/jquery.min.js')
+	script(type='text/javascript' src='javascripts/utils.js')
+	script(type='text/javascript' src='javascripts/game.js')
+	link(href='stylesheets/game.css' rel='stylesheet')
+block content
+	h2 曲目名
+	input(type='button' id='playbtn' value='暂停')
+	span 得分：
+	span(id='score')= 0
+	span 体力：
+	span(id='power')= 10
+	audio(controls='controls' height='100' width='100')
+		source(src='data/music/1.mp3' type='audio/mp3')
+		embed(height='100' width='600' src='data/music/1.mp3')
+	canvas(id='canvas')

@@ -5,7 +5,7 @@ body {
     font-family: 'Microsoft YaHei',Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;
 }
 header {
-    background: url('../image/layout/top-banner1.jpg') no-repeat;
+    background: url('../images/layout/top-banner1.jpg') no-repeat;
     height:350px;
     background-size: cover;
 }
