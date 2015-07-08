@@ -1,4 +1,8 @@
 $(document).ready( function($) {
+    $('.ui').hover(function(){
+        $('.top-tip').toggle();
+    });
+
     if( $.fn.fsvs ) {
         var slider = $.fn.fsvs({
             speed : 1000,

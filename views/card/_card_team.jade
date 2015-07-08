@@ -1,22 +1,27 @@
-.team
-	h2 队伍信息
-	.tabs
-		.tab-titles
-			span.tab-title.on(tab-rel='1') A
-			span.tab-title(tab-rel='2') B
-			span.tab-title(tab-rel='3') C
-		.tab.on
-			+tab
-		.tab aaa
-		.tab bbb
+mixin team(teams)
+	.team
+		h2 队伍信息
+		.tabs
+			.tab-titles
+				each team in teams
+					- var name = team.name;
+					- var rel = team.rel;
+					span.tab-title(tab-rel=rel) #{name}
+			each team in teams
+				.tab
+					- var name = team.name;
+					- var info = team.info;
+					+tab(name, info)
 
-mixin tab
+mixin tab(name, info)
 	.line
 		.left 队伍名
-		.right Maki队
+		.right #{name}
 	.grid
-		- var n = 0
-		while n<5
+		each item in info
+			-var src = item.img;
+			-var level = item.level;
 			a.member
-				img(src='images/1.jpg')
-				span 等级#{n++}
+				img(src=src)
+				span 等级#{level}
+

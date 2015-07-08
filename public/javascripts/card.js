@@ -7,6 +7,8 @@ $(document).ready(function(){
 
 var card = {
     init:function(){
+        $($(".tab-title").get(0)).addClass('on');
+        $($(".tab").get(0)).addClass('on');
         $(".tab-title").click(function(){
             if($(this).hasClass('on')) return;
             var i = parseInt($(this).attr("tab-rel"))-1;

@@ -1,7 +1,7 @@
 extends layout/layout
 block myhead
 	script(type='text/javascript' src='javascripts/card.js')
-	script(type='text/javascript' src='javascripts/firework.js')
+	script(type='text/javascript' src='javascripts/3part/firework.js')
 	link(href='stylesheets/card.css' rel='stylesheet')
 block content
 	header
@@ -17,4 +17,5 @@ block content
 				span 40张
 			.info
 				include card/_card_team
+				+team(teaminfo)
 				include card/_card_card

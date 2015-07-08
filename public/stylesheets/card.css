@@ -1,199 +1,213 @@
 @import "3part/filper.css";
 body {
-    text-align: center;
-    background-color: antiquewhite;
-    font-family: 'Microsoft YaHei',Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;
+  text-align: center;
+  background-color: antiquewhite;
+  font-family: 'Microsoft YaHei', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
 }
 header {
-    background: url('../images/layout/top-banner1.jpg') no-repeat top center;
-    height:200px;
-    background-size: 80%;
+  background: url('../images/layout/top-banner1.jpg') no-repeat top center;
+  height: 150px;
+  background-size: 80%;
 }
 header h1 {
-    padding-top: 8px;
-    color: orange;
-    width: 50%;
-    font-family: fantasy;
+  padding-top: 8px;
+  color: orange;
+  width: 50%;
+  font-family: fantasy;
+  margin: 0;
 }
 .main > div {
-    margin: auto;
+  margin: auto;
 }
 #canvas {
-    float: left;
-    display: inline-block;
-    position: absolute;
-    left: 20px;
-    top: -10px;
+  float: left;
+  display: inline-block;
+  position: absolute;
+  left: 20px;
+  top: -10px;
 }
 .nav {
-    background-image: -webkit-gradient(radial, center center, 0, center center, 220, from(rgb(239, 238, 234)), to(rgb(207, 184, 143)));
-    background-image: -webkit-radial-gradient(rgb(239, 238, 234),rgb(207, 184, 143));
-    background-image: radial-gradient(rgb(239, 238, 234),rgb(207, 184, 143));
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    text-align: right;
-    height:40px;
-    position: relative;
-    width: 80%;
+  background-image: -webkit-gradient(radial, center center, 0, center center, 220, from(#efeeea), to(#cfb88f));
+  background-image: -webkit-radial-gradient(#efeeea, #cfb88f);
+  background-image: radial-gradient(#efeeea, #cfb88f);
+  border-bottom-left-radius: 300px;
+  border-bottom-right-radius: 300px;
+  text-align: right;
+  height: 34px;
+  position: relative;
+  width: 80%;
 }
 .nav h2 {
-    color: rgba(116, 24, 24, 0.55);;
-    text-align: left;
-    padding-left: 20px;
-    padding-right: 20px;
-    font-family: cursive;
-    top: -15px;
-    right: 240px;
+  color: rgba(116, 24, 24, 0.55);
+  text-align: left;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: cursive;
+  top: -18px;
+  right: 240px;
 }
-.nav h3 {  right: 140px;
-    top: -8px;}
-.nav a {  padding-right: 30px;}
-.nav span {  right: 90px;
-    top: 15px;}
-.nav >* {display: inline-block;position: absolute;}
+.nav h3 {
+  right: 140px;
+  top: -12px;
+}
+.nav a {
+  padding-right: 30px;
+}
+.nav span {
+  right: 90px;
+  top: 10px;
+}
+.nav > * {
+  display: inline-block;
+  position: absolute;
+}
 .nav-bar {
-    left:0;
-    padding-left: 10%;
-    color: azure;
-    font-size: 20px;
-    padding-top: 6px;
-    font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
+  left: 0;
+  padding-left: 10%;
+  color: azure;
+  font-size: 16px;
+  padding-top: 6px;
+  font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 }
 .line {
-    margin:20px 0;
+  margin: 20px 0;
 }
 .line .left {
-    display:inline-block;
-    width:150px;
-    height:30px;
-}
-.line .right {
-    display:inline-block;
+  display: inline-block;
+  width: 150px;
+  height: 30px;
 }
 .line .left:after {
-    content: ":";
+  content: ":";
+}
+.line .right {
+  display: inline-block;
 }
 .tabs {
-    margin:0 auto;
-    width:100%;
-    max-width:480px;
-}
-.tab {
-    display: none;
-    width: 100%;
-    float: left;
-    text-align: left;
-    padding-left:10px;
-    padding-bottom:40px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 480px;
 }
 .tabs .on {
-    display: block;
+  display: block;
+}
+.tab {
+  display: none;
+  float: left;
+  text-align: left;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-bottom: 40px;
+}
+.tab .grid .member {
+  display: inline-block;
+  text-decoration: none;
+  margin-left: 10px;
+}
+.tab .grid .member span {
+  display: block;
+  text-align: center;
+  padding-top: 10px;
+}
+.tab .grid .member img {
+  width: 80px;
+  height: 80px;
+  max-width: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid yellow;
+  display: inline-block;
 }
 .tab-titles {
-    font-size:0;
-    width: 100%;
-    float: left;
-    text-align: left;
-    padding-left:10px;
+  font-size: 0;
+  float: left;
+  text-align: left;
+  padding-left: 20px;
 }
 .tab-titles .on {
-    background:burlywood;
-    display: inline-block;
-    color: antiquewhite;
-}
-.tab-title {
-    width:100px;
-    display: inline-block;
-    font-weight: 700;
-    font-size:24px;
-    padding-left:10px;
-    border:1px solid gainsboro;
-    background: rgb(228, 221, 195);
-    cursor:pointer;
-    color: burlywood;
+  background: burlywood;
+  display: inline-block;
+  color: antiquewhite;
 }
 .tab-titles span {
-    font-size: 16px;
+  font-size: 16px;
+}
+.tab-title {
+  width: 100px;
+  display: inline-block;
+  font-weight: 700;
+  font-size: 24px;
+  padding-left: 10px;
+  border: 1px solid gainsboro;
+  background: #e4ddc3;
+  cursor: pointer;
+  color: burlywood;
 }
 .tab-title:first-child {
-    border-top-left-radius: 6px;
+  border-top-left-radius: 6px;
 }
 .tab-title:last-child {
-    border-top-right-radius: 6px;
-}
-.tab .grid .member {
-    display: inline-block;
-}
-
-.tab .grid .member {
-    display: inline-block;
-    text-decoration: none;
-}
-
-.tab .grid .member span {
-    display: block;
-    text-align:center;
-    padding-top:10px;
-}
-
-.member img {
-    width:80px;
-    height:80px;
-    max-width:100%;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 1px solid yellow;
-    display:inline-block;
+  border-top-right-radius: 6px;
 }
 .main {
-    margin:0 auto;
+  margin: 0 auto;
 }
 .info {
-    display: flex;
-    padding-top:40px;
-    margin:0 auto;
-    background-color: floralwhite;
+  display: flex;
+  margin: 0 auto;
+  background-color: floralwhite;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.card h2,
+.team h2 {
+  text-align: left;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-shadow: 1px 1px saddlebrown;
+  font-family: Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed;
 }
 .team {
-    display: inline-block;
-    border:1px solid darkgoldenrod;
-    border-radius: 20px;
-    width: 30%;
-    text-align: center;
-    margin-left: 10%;
-    background-color: lightyellow;
-    box-shadow: 2px 1px 10px #8E7042;
-}
-.card h2, .team h2 {
-    text-align: left;
-    padding-left: 20px;
-    text-shadow: 1px 1px saddlebrown;
-    font-family: Tahoma,Helvetica,Arial,"\5b8b\4f53",sans-serif;
+  display: inline-block;
+  border: 1px solid darkgoldenrod;
+  border-radius: 20px;
+  width: 30%;
+  text-align: center;
+  margin-left: 12%;
+  background-color: lightyellow;
+  box-shadow: 2px 1px 10px #8E7042;
 }
 .team h2 {
-    color:burlywood;
-}
-.card h2 {
-    color: coral;
+  color: burlywood;
 }
 .card {
-    display: inline-block;
-    width: 45%;
-    margin: 0 5%;
-    border: 1px solid red;
-    border-radius: 20px;
-    background-color: cornsilk;
-    box-shadow: -2px -2px 20px #F94C4C;
+  display: inline-block;
+  width: 42%;
+  margin: 0 4%;
+  border: 1px solid red;
+  border-radius: 20px;
+  background-color: cornsilk;
+  box-shadow: -2px -2px 20px #f94c4c;
 }
-
 .card img {
-    width:500px;
-    max-width: 500px;
-    min-width: 200px;
+  width: 500px;
+  max-width: 500px;
+  min-width: 200px;
 }
-
+.card h2 {
+  color: coral;
+}
 .cardinfo {
-    text-align: left;
-    display: inline-block;
-    font-size: 24px;
+  text-align: left;
+  display: inline-block;
+  font-size: 24px;
+}
+.cardinfo .line {
+  font-size: 16px;
+  margin: 5px auto;
+}
+.cardinfo .line .left {
+  width: 120px;
 }
