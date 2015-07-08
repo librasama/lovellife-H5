@@ -1,0 +1,81 @@
+body {
+  font-family: 'Microsoft YaHei', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+  margin:0;
+}
+.top-tip {
+  display: none;
+  border:1px solid lightblue;
+  border-radius: 4px;
+}
+.nav-bar {
+  width:100%;
+  height:55px;
+  position:fixed;
+  border-bottom:1px solid orangered;
+  background-color: #FFF;
+  z-index:100;
+  top: 8px;
+  img {
+    width:100%;
+    height:100%;
+  }
+  .logo {
+    width:110px;
+    height:50px;
+    float:left;
+    padding-left:20px;
+  }
+  .nav {
+    float:left;
+    ul {
+      width:500px;
+      margin-left:20px;
+    }
+    ul li {
+      display:inline-block;
+      list-style: none;
+      width:50px;
+    }
+    li a {
+      color:orangered;
+      font-size:14px;
+      text-decoration: none;
+      font-weight:500;
+      :target {
+
+      }
+    }
+  }
+  .ui {
+    float:right;
+    width:40px;
+    height:40px;
+    padding-right:20px;
+    img {
+      border-radius:50%;
+    }
+  }
+}
+.wrapper {
+  width:100%;
+  margin:0 auto;
+  text-align: center;
+  .main-info {
+    font-size: 24px;
+    margin-top:120px;
+    margin-bottom:20px;
+    color:coral;
+  }
+  .info {
+    font-size: 28px;
+    margin-bottom:20px;
+    color: #ffa52c;
+  }
+  .crossed {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: #ffdf84;
+    .c2 {vertical-align: sub;display: inline-block;font-size:6px;text-decoration: line-through;}
+  }
+
+}

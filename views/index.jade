@@ -1,6 +1,23 @@
-extends layout
+extends layout/layout
 block myhead
-   link(href='stylesheets/index.css' rel='stylesheet')
+   link(href='stylesheets/index.css' rel='stylesheet' type='text/css')
+   script(src='javascripts/index.js' type='text/javascript')
 block content
-   我爱LL.我爱Coding.我是程序员，应该对自己更有信心一点。
-   凡是不仅要敢想，更要敢于坚持！！！
+   include layout/nav-bar
+   #full-screen.wrapper
+      .intro.slide
+         .main-info LoveLife
+         .info 是LL大法的网(ai)页(de)山寨版
+         .crossed 爱到深处自然黑
+      .wwd.slide
+         .main-info 我们抄什么
+         .info 先把卡组抄过来~还有本体游戏之
+            span 卡出翔的
+            span Html5版本！
+            span (requestAnimFrame:怪我咯)
+         a(href='/game') 玩玩看
+      .more.silde
+         .main-info More than chaos(x
+            .info Nico~nico~ni~
+
+   .top-tip 登录？意味不明
