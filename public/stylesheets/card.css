@@ -5,13 +5,13 @@ body {
   font-family: 'Microsoft YaHei', Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
 }
 header {
-  background: url('../images/layout/top-banner1.jpg') no-repeat top center;
+  background: url('../images/layout/top-banner1.jpg') no-repeat center 15%;
   height: 150px;
   background-size: 80%;
 }
 header h1 {
   padding-top: 8px;
-  color: orange;
+  color: #cf001f;
   width: 50%;
   font-family: fantasy;
   margin: 0;
@@ -87,6 +87,7 @@ header h1 {
   margin: 0 auto;
   width: 100%;
   max-width: 480px;
+  float: left;
 }
 .tabs .on {
   display: block;
@@ -159,15 +160,15 @@ header h1 {
   padding-top: 20px;
   padding-bottom: 20px;
 }
-.card h2,
-.team h2 {
+.card .title,
+.team .title {
   text-align: left;
-  margin-left: 20px;
-  margin-right: 20px;
   text-shadow: 1px 1px saddlebrown;
   font-family: Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
   padding-bottom: 5px;
   border-bottom: 1px dashed;
+  font-size: 24px;
+  margin: 10px 20px 15px 20px;
 }
 .team {
   display: inline-block;
@@ -179,8 +180,22 @@ header h1 {
   background-color: lightyellow;
   box-shadow: 2px 1px 10px #8E7042;
 }
-.team h2 {
+.team .title {
   color: burlywood;
+}
+.team .title .func {
+  display: inline-block;
+  float: right;
+  border: 1px solid;
+  padding-left: 10px;
+  padding-right: 11px;
+  padding-bottom: 4px;
+  margin-top: -5px;
+  border-radius: 20%;
+  cursor: pointer;
+}
+.team .addbox {
+  display: none;
 }
 .card {
   display: inline-block;
@@ -196,7 +211,7 @@ header h1 {
   max-width: 500px;
   min-width: 200px;
 }
-.card h2 {
+.card .title {
   color: coral;
 }
 .cardinfo {

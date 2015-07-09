@@ -1,6 +1,7 @@
 mixin team(teams)
 	.team
-		h2 队伍信息
+		.title 队伍信息
+			#addteam.func +
 		.tabs
 			.tab-titles
 				each team in teams
@@ -12,6 +13,8 @@ mixin team(teams)
 					- var name = team.name;
 					- var info = team.info;
 					+tab(name, info)
+		.addbox
+			新建队伍啦啦啦
 
 mixin tab(name, info)
 	.line
