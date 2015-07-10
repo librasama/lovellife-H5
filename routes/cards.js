@@ -13,25 +13,34 @@ router.get('/', function(req, res, next){
     express.query(req, res, next);
 });
 
-router.get('/upd', function(req, res, next){
-    cardDao.upd({"card_noraml":"face_0019.png"},{"sp_01":"SBSB"},{}, function(doc){
-       cardDao.find({"card_noraml":"face_0019.png"}, function(d) {
-           console.log(d);
-        });
-    });
-});
-
-//初始化卡牌分类数组
-router.get('/init', function(){
-    var normal = [];
-    var sr = [];
-    var ur = [];
-    var char = [];
-});
-
 router.post('/search', function(req, res, next){
-    var param = req.body;
-    console.log(param.toString());
+    var char = req.body.char; //名称
+    var prop = req.body.prop; //Cool/Smile/Pure
+    var type = req.body.type; //级别
+    query = {};
+    if(char != null && 0!= char)  {
+        query.char = char;
+    }
+    if(prop != null) {
+        query.card_type = prop;
+    }
+    if(type != null) {
+        query.lovelive_grade = type;
+    }
+    total = req.body.total?req.body.total:null;
+    page = req.body.page?req.body.page:'1';
+    console.log(JSON.stringify(query));
+    cardDao.find(query, total, page ,function(count, doc){
+        obj = {};
+        if(doc.length) {
+            obj.flag = true;
+            obj.total = count;
+            obj.data = doc;
+        } else {
+            obj.flag = false;
+        }
+        res.json(JSON.stringify(obj));
+    });
 });
 
 router.get('/list/:who/:level/:type/:horo', function(req, res, next){

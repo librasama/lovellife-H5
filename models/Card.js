@@ -32,10 +32,18 @@ CardDAO.prototype.save = function(obj, cb) {
         cb(err);
     });
 };
-CardDAO.prototype.find = function(query, cb) {
-    Card.find(query, function(err, doc){
-        if(err == null) cb(doc);
-    });
+CardDAO.prototype.find = function(condition, count, page, cb) {
+    var query = function(query, count, page, cb){Card.find(query).skip(10*(page-1)).limit(10).exec(function(err, doc){
+        if(err == null) cb(count, doc);
+    })};
+    if(!count) {
+        Card.count(condition, function(err, tt){
+            console.log("count:"+tt);
+            count = Math.floor(tt/10);
+            query(condition, count, page, cb);
+        });
+    } else { query(condition, count, page, cb);}
+
 
 };
 CardDAO.prototype.upd = function(condition, update, options, cb) {

@@ -284,7 +284,7 @@ header h1 {
   background: #fff;
   margin: 200px auto ;
   width: 500px;
-  height: 380px;
+  height: 420px;
   border-radius: 4px;
 }
 .peakbox .title {
@@ -299,11 +299,14 @@ header h1 {
 }
 .peakbox .grid-5-2 {
   width: 100%;
+  height: 240px;
   float: left;
+  border: 1px dotted #ffdf84;
 }
 .peakbox .grid-5-2 .row {
   height: 100px;
   width: 100%;
+  margin-top: 10px;
 }
 .peakbox .grid-5-2 .row .player {
   display: inline-block;
@@ -314,8 +317,28 @@ header h1 {
   float: left;
   border: 1px solid pink;
 }
+.peakbox .grid-5-2 .row .player img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.peakbox .fin-btn {
+  bottom: 5px;
+}
+.peakbox .paging {
+  width: 100%;
+  float: left;
+  height: 30px;
+}
+.peakbox .paging .prev,
+.peakbox .paging .next {
+  visibility: hidden;
+  width: 50%;
+  float: left;
+  font-size: 20px;
+}
 .condition {
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 .condition .select-box,
 .condition .search-btn {
