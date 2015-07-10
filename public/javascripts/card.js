@@ -30,14 +30,38 @@ var card = {
                 $('.team .title .func').attr('id', 'addteam').append('+');
             }
         });
+        card.maskInit();
+        $('.search-btn').on('click', function(){
+            param = $(this).parent();
+            var obj = {};
+            obj.char = $(param).find('#char').val();
+            obj.prop = $(param).find('#prop').val();
+            obj.type = $(param).find('#type').val();
+            $.post('/card/search', obj, function(){
+                console.log("wwwww");
+            });
+        });
+        $('.addBtn').on('click', function() {
+            if ($('.grid .add-player').length != 0) {
+                alert('缪斯果然必须九个人才行呢~！');return false;}
+            $.get('/team/count', true, function(){
+                tooMany = count >= 5;
+            });
+            if(tooMany) {alert('按国服的标准您的队伍太多...憋建了');}
+            team.name = $('.teamname').val();
+            team.players = [1,1,1,1,1,1,1,1,1];//九个id
+            $.post('/team/save', team, function (data) {
+            });
+        });
+
+    },
+    maskInit:function() {
         $('.mask').on('click', function(e){
-            console.log("yyyy");
             $('.mask').hide();
             $('.peakbox').hide();
         });
 
         $('.peakbox').on('click', function(e){
-            console.log("xxxx");
             return false;
         });
         $('.add-player').on('click', function(){

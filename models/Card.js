@@ -1,7 +1,11 @@
 var mongodb = require('./mongodb');
 var Schema = mongodb.mongoose.Schema;
 var CardSchema = new Schema({
+    card_id:String,
+    card_fullid:String,
+    card_type:String,
     card_name:String,
+    char:String,
     lovelive_grade:String,
     card_normal:String,
     card_horo:String,

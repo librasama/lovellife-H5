@@ -3,7 +3,7 @@ var router = express.Router();
 var cardDao = require('../models/Card.js');
 router.get('/', function(req, res, next){
     c = {};
-    c.title = '宅喵喵卡组';
+    c.title = '卡组';
     c.teaminfo =
         [{'name':'Maki红', 'rel':'1', 'info':[{'img':'../images/1.jpg', 'level':'1'}, {'img':'../images/1.jpg', 'level':'2'}]},
             {'name':'Maki蓝', 'rel':'2', 'info':[{'img':'../images/2.jpg', 'level':'2'}, {'img':'../images/2.jpg', 'level':'2'}]},
@@ -19,6 +19,19 @@ router.get('/upd', function(req, res, next){
            console.log(d);
         });
     });
+});
+
+//初始化卡牌分类数组
+router.get('/init', function(){
+    var normal = [];
+    var sr = [];
+    var ur = [];
+    var char = [];
+});
+
+router.post('/search', function(req, res, next){
+    var param = req.body;
+    console.log(param.toString());
 });
 
 router.get('/list/:who/:level/:type/:horo', function(req, res, next){

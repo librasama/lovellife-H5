@@ -26,19 +26,19 @@ block content
 					.condition
 						.select-box
 							span 属性
-							select
-								option Cool
-								option Smile
-								option Pure
+							select#prop
+								option(value='C') Cool
+								option(value='S') Smile
+								option(value='P') Pure
 						.select-box
 							span 级别
-							select
-								option N
-								option SR
-								option UR
+							select#type
+								option(value='N') N
+								option(value='SR') SR
+								option(value='UR') UR
 						.select-box
 							span 角色
-							select
+							select#char
 								option(value='0') 非主角
 								option(value='1') 高板惠乃果
 								option(value='2') 南小鸟
@@ -64,6 +64,3 @@ mixin pickrow(n)
 		while i < n
 			.player
 			- i++;
-
-
-
