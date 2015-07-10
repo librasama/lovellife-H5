@@ -39,8 +39,7 @@ router.get('/data', function(req, res, next){
                         obj.card_name = $($('span', $item).get(2)).html();
                     } else if(clzname == 'card_normal' ||　clzname == 'card_horo') {
                         uri = $('img', $item).attr('src');
-
-                        obj[clzname] = uri.substr(uri.substr(uri.lastIndexOf('/')+1));
+                        obj[clzname] = uri.substr(uri.lastIndexOf('/')+1);
                     } else if(clzname.indexOf('level') == -1) {
                         obj[clzname] = val;
                     }

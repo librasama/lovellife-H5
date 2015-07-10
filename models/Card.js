@@ -23,11 +23,23 @@ var CardSchema = new Schema({
 var Card = mongodb.mongoose.model("Card", CardSchema);
 var CardDAO = function(){};
 CardDAO.prototype.save = function(obj, cb) {
-    console.log("2bbbb");
     var instance = new Card(obj);
     instance.save(function(err){
         cb(err);
     });
 };
+CardDAO.prototype.find = function(query, cb) {
+    Card.find(query, function(err, doc){
+        if(err == null) cb(doc);
+    });
+
+};
+CardDAO.prototype.upd = function(condition, update, options, cb) {
+    Card.update(condition, update, function(err, doc){
+        if(err) {console.log("更新错误："+err);; return ;}
+        cb(doc);
+    });
+}
+
 
 module.exports = new CardDAO();

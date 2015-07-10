@@ -19,3 +19,51 @@ block content
 				include card/_card_team
 				+team(teaminfo)
 				include card/_card_card
+			.mask
+				.peakbox
+					.title
+						span.left 选择队(hou)员(gong)
+					.condition
+						.select-box
+							span 属性
+							select
+								option Cool
+								option Smile
+								option Pure
+						.select-box
+							span 级别
+							select
+								option N
+								option SR
+								option UR
+						.select-box
+							span 角色
+							select
+								option(value='0') 非主角
+								option(value='1') 高板惠乃果
+								option(value='2') 南小鸟
+								option(value='3') 园田海未
+								option(value='4') 凛
+								option(value='5') 小泉花阳
+								option(value='6') 西木野真姬
+								option(value='7') 绚濑绘里
+								option(value='8') 东条希
+								option(value='9') 矢泽妮可
+						.search-btn GO!
+					.grid-5-2
+								-var i =0;
+								while i<2
+									+pickrow(5)
+									- i++;
+					.prevBtn
+					.nextBtn
+
+mixin pickrow(n)
+	.row
+		-var i=0;
+		while i < n
+			.player
+			- i++;
+
+
+

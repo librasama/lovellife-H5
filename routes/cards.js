@@ -13,6 +13,21 @@ router.get('/', function(req, res, next){
     express.query(req, res, next);
 });
 
+router.get('/upd', function(req, res, next){
+    cardDao.upd({"card_noraml":"face_0019.png"},{"sp_01":"SBSB"},{}, function(doc){
+       cardDao.find({"card_noraml":"face_0019.png"}, function(d) {
+           console.log(d);
+        });
+    });
+});
 
+router.get('/list/:who/:level/:type/:horo', function(req, res, next){
+    var who = req.params['who'];
+    var level = req.params['level'];
+    var type = req.params['type'];
+    var horo = req.params['horo'];
+
+
+});
 
 module.exports = router;

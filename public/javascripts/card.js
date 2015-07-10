@@ -30,5 +30,19 @@ var card = {
                 $('.team .title .func').attr('id', 'addteam').append('+');
             }
         });
+        $('.mask').on('click', function(e){
+            console.log("yyyy");
+            $('.mask').hide();
+            $('.peakbox').hide();
+        });
+
+        $('.peakbox').on('click', function(e){
+            console.log("xxxx");
+            return false;
+        });
+        $('.add-player').on('click', function(){
+            $('.mask').toggle();
+            $('.peakbox').toggle();
+        });
     }
 };

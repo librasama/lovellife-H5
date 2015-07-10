@@ -14,7 +14,22 @@ mixin team(teams)
 					- var info = team.info;
 					+tab(name, info)
 		.addbox
-			新建队伍啦啦啦
+			.grid-3
+				- var i=0;
+				while i < 3
+					+row(3)
+					- i++;
+			.teaminfo
+				input.teamname(type='text' placeholder='队伍名称')
+				span.addBtn 完成
+
+mixin row(n)
+	.row
+		- var i = 0;
+		while i < n
+			.add-player +
+			- i++;
+
 
 mixin tab(name, info)
 	.line
