@@ -44,7 +44,10 @@ router.get('/data', function(req, res, next){
                         uri = $('img', $item).attr('src');
                         obj[clzname] = uri.substr(uri.lastIndexOf('/')+1).trim();
                     } else if(clzname.indexOf('level') == -1) {
-                        obj[clzname] = val.ncr2c().trim();
+                        val = val.ncr2c().trim();
+                        if(/\d+/.test(val)) {
+                            obj[clzname] = parseInt(val);
+                        }
                     }
                 });
                 if(obj.smile_01 > obj.pure_01) {

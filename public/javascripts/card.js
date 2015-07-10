@@ -37,20 +37,23 @@ var card = {
 
         $('.paging .next').on('click', function(){
             c = parseInt($(this).attr('page'));
-            if(c>=2) {$('.paging .prev').attr('page', c-1);$('.paging .prev').css('visibility','visible');}
+            if(c>=2) {
+                $('.paging .prev').css('visibility','visible');
+                $('.paging .prev').attr('page', (c-1));
+                }
             total = parseInt($('.paging .total').val());
             if(c < total) {
-                $($('.paging .next').get(0)).attr("page", c+1);
-            } else {
-                $(this).css('visibility','hidden');
+                $(this).attr("page", (c+1));
+            }else {
+                $('.paging .next').css('visibility','hidden');
             }
             card.getPlayer(c);
         });
         $('.paging .prev').on('click', function(){
             c = parseInt($(this).attr('page'));
-            $($('.paging .next').get(0)).attr('page', c+1);
             $('.paging .next').css('visibility','visible');
-            $(this).attr('page', c-1);
+            $('.paging .next').attr('page', (c+1));
+            $(this).attr('page', (c-1));
             if(c==1) {
                 $(this).css('visibility','hidden');
             }
@@ -86,8 +89,11 @@ var card = {
                 count = rs.total;
                 console.log("total:"+count);
                 if(count > 1) {
-                    $('.paging .next').css('visibility','visible');
-                    $('.paging .next').attr('page', '2');
+                    if(parseInt($('.paging .next').attr("page")) <= count) {
+                        $('.paging .next').css('visibility','visible');
+                    } else {
+                        $('.paging .next').css('visibility','hidden');
+                    }
                     $('.paging .total').val(count);
                 }
                 $(rs.data).each(function($idx, $item) {

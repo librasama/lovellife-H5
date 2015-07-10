@@ -9,18 +9,18 @@ var CardSchema = new Schema({
     lovelive_grade:String,
     card_normal:String,
     card_horo:String,
-    hp_01:String,
-    hp_02:String,
-    hp_03:String,
-    smile_01:String,
-    smile_02:String,
-    smile_03:String,
-    pure_01:String,
-    pure_02:String,
-    pure_03:String,
-    cool_01:String,
-    cool_02:String,
-    cool_03:String,
+    hp_01:Number,
+    hp_02:Number,
+    hp_03:Number,
+    smile_01:Number,
+    smile_02:Number,
+    smile_03:Number,
+    pure_01:Number,
+    pure_02:Number,
+    pure_03:Number,
+    cool_01:Number,
+    cool_02:Number,
+    cool_03:Number,
     sp_01:String,
     sp_02:String
 });
@@ -39,7 +39,7 @@ CardDAO.prototype.find = function(condition, count, page, cb) {
     if(!count) {
         Card.count(condition, function(err, tt){
             console.log("count:"+tt);
-            count = Math.floor(tt/10);
+            count = Math.ceil(tt/10);
             query(condition, count, page, cb);
         });
     } else { query(condition, count, page, cb);}
