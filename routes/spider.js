@@ -79,7 +79,7 @@ router.get('/data', function(req, res, next){
  * 从韩网扒，更新人物名称
  */
 router.get('/more', function(req, res, next){
-    content = fs.readFileSync('content.html');
+    content = fs.readFileSync('../data/content.html');
     console.log(content);
     $ = cheerio.load(content, {
         normalizeWhitespace: true,

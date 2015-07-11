@@ -32,7 +32,7 @@ var card = {
         });
         card.maskInit();
         $('.search-btn').on('click', function() {
-            card.getPlayer(1);
+            card.getPlayer(1, true);
         });
 
         $('.paging .next').on('click', function(){
@@ -47,7 +47,7 @@ var card = {
             }else {
                 $('.paging .next').css('visibility','hidden');
             }
-            card.getPlayer(c);
+            card.getPlayer(c, false);
         });
         $('.paging .prev').on('click', function(){
             c = parseInt($(this).attr('page'));
@@ -57,7 +57,7 @@ var card = {
             if(c==1) {
                 $(this).css('visibility','hidden');
             }
-            card.getPlayer(c);
+            card.getPlayer(c, false);
         });
         $('.addBtn').on('click', function() {
             if ($('.grid .add-player').length != 0) {
@@ -73,7 +73,7 @@ var card = {
         });
 
     },
-    getPlayer:function(page){
+    getPlayer:function(page, init){
         param = $('.condition');
         var obj = {};
         obj.char = $(param).find('#char').val();
@@ -88,7 +88,7 @@ var card = {
             if(rs.flag) {
                 count = rs.total;
                 console.log("total:"+count);
-                if(count > 1) {
+                if((count > 1) && init) {
                     if(parseInt($('.paging .next').attr("page")) <= count) {
                         $('.paging .next').css('visibility','visible');
                     } else {
@@ -106,7 +106,8 @@ var card = {
                     $($(".peakbox .row").get(Math.floor($idx/5))).append(player);
                 });
             } else {
-                //空结果集
+                $('.paging .next').css('visibility','hidden');
+                $('.paging .prev').css('visibility','hidden');
                 $('.grid-5-2').append('换个条件试试吧~！');
             }
         });
@@ -115,6 +116,7 @@ var card = {
         $('.mask').on('click', function(e){
             $('.mask').hide();
             $('.peakbox').hide();
+            $('.result-box').hide();
         });
 
         $('.peakbox').on('click', function(e){
@@ -123,6 +125,7 @@ var card = {
         $('.add-player').on('click', function(){
             $('.mask').toggle();
             $('.peakbox').toggle();
+            $('.result-box').toggle();
         });
     }
 };

@@ -285,7 +285,7 @@ header h1 {
   margin: 200px auto ;
   width: 500px;
   height: 420px;
-  border-radius: 4px;
+  border-radius: 10px;
 }
 .peakbox .title {
   width: 100%;
@@ -359,4 +359,17 @@ header h1 {
   cursor: pointer;
   padding: 2px 5px;
   border-radius: 5px;
+}
+.result-box {
+  display: none;
+  z-index: 99;
+  background: #fff;
+  position: fixed;
+  top: 100px;
+  right: 5px;
+  width: 200px;
+  height: 600px;
+}
+.result-box .list {
+  width: 100%;
 }
