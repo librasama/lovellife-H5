@@ -111,11 +111,8 @@ router.get('/image', function(req, res, next){
 
 function getPics(urlIndex, picIndex) {
     var baseURI = picsUrl[urlIndex];
-    j = 4- Math.floor(picIndex.toString().length);
-    var s ='';
-    for(var k=0;k<j;k++)
-        s += '0';
-    baseURI = baseURI.replace('?', s+picIndex)
+    var s = get4LengthNum(picIndex)
+    baseURI = baseURI.replace('?', s)
     var content = "";
     var req = http.request(baseURI, function(res) {
         res.setEncoding("binary");
@@ -136,5 +133,38 @@ function getPics(urlIndex, picIndex) {
     req.end();
 }
 
+//cao.居然没有觉醒的卡牌还得从韩网down
+router.get('/ch', function(req, res, next){
+    getCardHoro(1);
+    express.query(req, res, next);
+});
+function getCardHoro(i) {
+    var maxIdx = 518;
+    var url = 'http://img.ruliweb.com/family/lovelive/card/card_?_horo.png';
+    var s = get4LengthNum(i);
+    url = url.replace('?', s);
+    console.log(url);
+    var req = http.request(url, function(res){
+        var content = "";
+        res.setEncoding("binary");
+        res.on('data', function(chunk){
+            content += chunk;
+        });
+        res.on('end', function() {
+            fs.writeFile('./public/upload/card_'+s+'_horo.png', content, "binary", function(e){
+                if(e) throw e;
+                if(i<maxIdx){getCardHoro(i+1);}
+            })
+        });
+    });
+    req.end();
+}
+function get4LengthNum(i){
+    j = 4- Math.floor(i.toString().length);
+    var s ='';
+    for(var k=0;k<j;k++)
+        s += '0';
+    return s+i;
+}
 
 module.exports = router;

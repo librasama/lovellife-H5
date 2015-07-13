@@ -235,26 +235,6 @@ header h1 {
   text-align: center;
   margin: 40px auto;
 }
-.addbox .grid-3 .row {
-  width: 100%;
-  height: 33%;
-  display: flex;
-}
-.addbox .grid-3 .row .add-player {
-  margin-left: 3%;
-  width: 30%;
-  height: 79%;
-  border: 1px dashed silver;
-  border-radius: 50%;
-  font-size: 48px;
-  color: gainsboro;
-  padding-top: 3%;
-  cursor: pointer;
-}
-.addbox .grid-3 .row .add-player:hover {
-  color: grey;
-  border-color: grey;
-}
 .addbox .teaminfo .teamname {
   margin-right: 20px;
   height: 24px;
@@ -269,6 +249,38 @@ header h1 {
   background-color: antiquewhite;
   color: burlywood;
 }
+.row {
+  width: 100%;
+  height: 33%;
+  display: flex;
+}
+.row .add-player,
+.row .playerIn {
+  margin-left: 3%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  font-size: 48px;
+  color: gainsboro;
+  cursor: pointer;
+}
+.row .add-player img,
+.row .playerIn img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.row .add-player {
+  border: 1px dashed silver;
+}
+.row .add-player:hover {
+  color: grey;
+  border-color: grey;
+}
+.row .add-player span {
+  padding-top: 10px;
+  display: block;
+}
 .mask {
   width: 100%;
   height: 100%;
@@ -281,7 +293,8 @@ header h1 {
 .peakbox {
   display: none;
   z-index: 99;
-  background: #fff;
+  border: 2px solid #ffecc9;
+  background: #ffffef;
   margin: 200px auto ;
   width: 500px;
   height: 420px;
@@ -308,22 +321,11 @@ header h1 {
   width: 100%;
   margin-top: 10px;
 }
-.peakbox .grid-5-2 .row .player {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  margin-left: 16px;
-  float: left;
-  border: 1px solid pink;
-}
-.peakbox .grid-5-2 .row .player img {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-}
 .peakbox .fin-btn {
   bottom: 5px;
+  width: 100%;
+  float: left;
+  cursor: pointer;
 }
 .peakbox .paging {
   width: 100%;
@@ -365,11 +367,30 @@ header h1 {
   z-index: 99;
   background: #fff;
   position: fixed;
-  top: 100px;
-  right: 5px;
-  width: 200px;
-  height: 600px;
+  top: 230px;
+  left: 970px;
+  width: 145px;
+  height: 375px;
+  border-radius: 20px;
+  border: 2px solid #ffecc9;
+  background: #ffffef;
 }
 .result-box .list {
   width: 100%;
+}
+.player {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-left: 16px;
+  float: left;
+}
+.player img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.player span {
+  font-size: 14px;
 }

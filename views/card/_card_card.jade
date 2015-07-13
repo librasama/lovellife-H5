@@ -5,7 +5,9 @@
          .front
          .back
    .cardinfo
-      - each item in [{'name':'等级', 'val':2, 'id':'level'}, {'name':'属性', 'val':'Smile', 'id':'type'}, {'name':'体力', 'val':'5', 'id':'power'}, {'name':'各项数值', 'val':'50 100 50', 'id':'values'}, {'name':'技能', 'val':'射穿你的心', 'id':'skill'}]
+      - each item in [{'name':'卡牌名称', 'val':2, 'id':'name'},
+      - {'name':'属性', 'val':'Smile', 'id':'type'}, {'name':'体力', 'val':'5', 'id':'power'},
+      - {'name':'Smile', 'val':'xxz', 'id':'values'}, {'name':'技能', 'val':'射穿你的心', 'id':'skill'}]
          - var name = item.name
          - var val = item.val
          - var xxx = item.id

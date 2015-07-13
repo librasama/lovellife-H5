@@ -17,18 +17,18 @@ mixin team(teams)
 			.grid-3
 				- var i=0;
 				while i < 3
-					+row(3)
+					+row(3, i)
 					- i++;
 			.teaminfo
 				input.teamname(type='text' placeholder='队伍名称')
 				span.addBtn 完成
 
-mixin row(n)
+mixin row(n, row)
 	.row
 		- var i = 0;
 		while i < n
-			.add-player +
-			- i++;
+			.add-player(id='player'+(row*n+i++))
+				span +
 
 
 mixin tab(name, info)

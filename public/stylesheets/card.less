@@ -234,26 +234,6 @@ header h1 {
     height:300px;
     text-align: center;
     margin: 40px auto;
-    .row {
-      width:100%;
-      height:33%;
-      display: flex;
-      .add-player {
-        margin-left:3%;
-        width:30%;
-        height:79%;
-        border:1px dashed silver;
-        border-radius: 50%;
-        font-size:48px;
-        color:gainsboro;
-        padding-top:3%;
-        cursor:pointer;
-        &:hover {
-          color:grey;
-          border-color: grey;
-        }
-      }
-    }
   }
   .teaminfo {
     .teamname{
@@ -272,5 +252,34 @@ header h1 {
     }
   }
 }
-
+.row {
+  width:100%;
+  height:33%;
+  display: flex;
+  .add-player, .playerIn {
+    margin-left:3%;
+    width:90px;
+    height:90px;
+    border-radius: 50%;
+    font-size:48px;
+    color:gainsboro;
+    cursor:pointer;
+    img {
+      width:100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+  }
+  .add-player {
+    border:1px dashed silver;
+    &:hover {
+      color:grey;
+      border-color: grey;
+    }
+    span {
+      padding-top: 10px;
+      display: block;
+    }
+  }
+}
 @import url(card_mask.less);
