@@ -9,8 +9,8 @@
 }
 
 .flip-container, .front, .back {
-    width: 280px;
-    height: 420px;
+    width: 240px;
+    height: 360px;
     display: inline-block;
     float: left;
 }

@@ -42,6 +42,7 @@ var card = {
             team.name = $('.teamname').val();
             team.players = [1,1,1,1,1,1,1,1,1];//九个id
             $.post('/team/save', team, function (data) {
+
             });
         });
     }
@@ -188,10 +189,6 @@ var searchbox = {
                         $('.grid-5-2').append(newRow);
                     }
                     src= "../upload/"+$item.card_normal;
-                    //{"_id":"559fda2fe1dd13382cff0000","lovelive_grade":"N","card_name":"近江遥",
-                    // "card_fullid":"No. 19","card_id":"19","card_normal":"face_0019.png","card_horo":"face_0019_horo.png","hp_01":1,"hp_02":1,"hp_03":2,
-                    // "smile_01":1760,"smile_02":2040,"smile_03":2140,"pure_01":600,"pure_02":780,"pure_03":840,
-                    // "cool_01":360,"cool_02":500,"cool_03":550,"card_type":"smile","__v":0,"char":"近江遥"}
                     if(!info[$item.card_normal]) {info[$item.card_normal] = $item};
                     var player = $('<div class="player"><img src="'+src+'"> <span>'+$item.card_name+'</span></div>');
                     $($(".peakbox .row").get(Math.floor($idx/5))).append(player);
@@ -243,9 +240,22 @@ var picked = {
         }
         var img = item.card_normal.replace('face', 'card');
         console.log(img);
+        //{"_id":"559fda2fe1dd13382cff0000","lovelive_grade":"N","card_name":"近江遥",
+        // "card_fullid":"No. 19","card_id":"19","card_normal":"face_0019.png","card_horo":"face_0019_horo.png","hp_01":1,"hp_02":1,"hp_03":2,
+        // "smile_01":1760,"smile_02":2040,"smile_03":2140,"pure_01":600,"pure_02":780,"pure_03":840,
+        // "cool_01":360,"cool_02":500,"cool_03":550,"card_type":"smile","__v":0,"char":"近江遥"}
         $('.card .flipper .front').css('background', "url('../../upload/"+img+"') 0 0 no-repeat");
         $('.card .flipper .front').css('background-size', "100% 100%");
         $('.card .flipper .back').css('background', "url('../../upload/"+img.replace('.png', '_horo.png')+"') 0 0 no-repeat");
         $('.card .flipper .back').css('background-size', "100% 100%");
+        $('.cardinfo .face-normal').attr('src', '../../upload/'+item.card_normal);
+        $('.cardinfo .face-horo').attr('src', '../../upload/'+item.card_horo);
+        $('.cardinfo #name').text(item.card_name);
+        $('.cardinfo #type').text(item.card_type);
+        $('.cardinfo #power').text(item.hp_01 + " " + item.hp_02 + " " + item.hp_03);
+        $('.cardinfo #smile').text(item.smile_01 + " " + item.smile_02 + " " + item.smile_03);
+        $('.cardinfo #pure').text(item.pure_01 + " " + item.pure_02 + " " + item.pure_03);
+        $('.cardinfo #cool').text(item.cool_01 + " " + item.cool_02 + " " + item.cool_03);
+        $('.cardinfo #skill').text(item.skill);
     }
 }

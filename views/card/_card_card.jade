@@ -5,9 +5,10 @@
          .front
          .back
    .cardinfo
-      - each item in [{'name':'卡牌名称', 'val':2, 'id':'name'},
-      - {'name':'属性', 'val':'Smile', 'id':'type'}, {'name':'体力', 'val':'5', 'id':'power'},
-      - {'name':'Smile', 'val':'xxz', 'id':'values'}, {'name':'技能', 'val':'射穿你的心', 'id':'skill'}]
+      .faces
+         img.face-normal
+         img.face-horo
+      - each item in [{'name':'卡牌名称', 'val':2, 'id':'name'},{'name':'属性', 'val':'Smile', 'id':'type'}, {'name':'体力', 'val':'5', 'id':'power'},{'name':'Smile', 'val':'', 'id':'smile'}, {'name':'Pure', 'val':'', 'id':'pure'}, {'name':'Cool', 'val':'', 'id':'cool'}, {'name':'技能', 'val':'射穿你的心', 'id':'skill'}]
          - var name = item.name
          - var val = item.val
          - var xxx = item.id

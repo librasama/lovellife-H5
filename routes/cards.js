@@ -43,6 +43,8 @@ router.post('/search', function(req, res, next){
     });
 });
 
+
+
 router.get('/list/:who/:level/:type/:horo', function(req, res, next){
     var who = req.params['who'];
     var level = req.params['level'];

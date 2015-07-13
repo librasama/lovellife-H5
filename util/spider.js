@@ -16,7 +16,7 @@ var card_data_url = "http://db.lovelivecn.info/CardData/index.php?CharNum=0&Card
 /**
  * 卡牌数据
  */
-router.get('/data', function(req, res, next){
+function data(){
     var content = "";
     var req = http.request(card_data_url, function(res) {
         res.setEncoding("utf8");
@@ -47,6 +47,8 @@ router.get('/data', function(req, res, next){
                         val = val.ncr2c().trim();
                         if(/\d+/.test(val)) {
                             obj[clzname] = parseInt(val);
+                        } else {
+                            obj[clzname] = val;
                         }
                     }
                 });
@@ -72,13 +74,12 @@ router.get('/data', function(req, res, next){
         });
     });
     req.end();
-    express.query(req, res, next);
-});
+};
 
 /**
  * 从韩网扒，更新人物名称
  */
-router.get('/more', function(req, res, next){
+function more(){
     content = fs.readFileSync('../data/content.html');
     console.log(content);
     $ = cheerio.load(content, {
@@ -95,76 +96,79 @@ router.get('/more', function(req, res, next){
         } catch (e ){console.log("error happend: " + e);}
        cardDao.upd({'card_fullid':cardno}, {'char':name}, {},function(doc){});
     });
-});
-
+};
 
 /**
  * 抓取卡牌图片
  */
-var picsUrl = [card_face_url, card_hono_face_url, card_img_url];
-var maxIdx = 508;
-var startIdx = 1;
-router.get('/image', function(req, res, next){
-    getPics(0,startIdx);
-    express.query(req, res, next);
-});
-
-function getPics(urlIndex, picIndex) {
-    var baseURI = picsUrl[urlIndex];
-    var s = get4LengthNum(picIndex)
-    baseURI = baseURI.replace('?', s)
-    var content = "";
-    var req = http.request(baseURI, function(res) {
-        res.setEncoding("binary");
-        res.on("data", function (chunk) {
-            content += chunk;
-        });
-        res.on("end", function () {
-            filename = baseURI.substr(baseURI.lastIndexOf('/')+1);
-            console.log(filename);
-            fs.writeFile("./public/upload/"+filename, content, "binary", function(e){
-                if(e) throw e;
-                if(picIndex < maxIdx) {getPics(urlIndex, picIndex+1);}
-                else if(urlIndex<picsUrl.length-1) {getPics(urlIndex+1, startIdx);}
+function image(){
+    var picsUrl = [card_face_url, card_hono_face_url, card_img_url];
+    var maxIdx = 508;
+    var startIdx = 1;
+    function getPics(urlIndex, picIndex) {
+        var baseURI = picsUrl[urlIndex];
+        var s = get4LengthNum(picIndex)
+        baseURI = baseURI.replace('?', s)
+        var content = "";
+        var req = http.request(baseURI, function(res) {
+            res.setEncoding("binary");
+            res.on("data", function (chunk) {
+                content += chunk;
             });
-        });
+            res.on("end", function () {
+                filename = baseURI.substr(baseURI.lastIndexOf('/')+1);
+                console.log(filename);
+                fs.writeFile("./public/upload/"+filename, content, "binary", function(e){
+                    if(e) throw e;
+                    if(picIndex < maxIdx) {getPics(urlIndex, picIndex+1);}
+                    else if(urlIndex<picsUrl.length-1) {getPics(urlIndex+1, startIdx);}
+                });
+            });
 
-    });
-    req.end();
-}
+        });
+        req.end();
+    }
+    getPics(0,startIdx);
+};
+
 
 //cao.居然没有觉醒的卡牌还得从韩网down
-router.get('/ch', function(req, res, next){
+function ch(){
+    function getCardHoro(i) {
+        var maxIdx = 518;
+        var url = 'http://img.ruliweb.com/family/lovelive/card/card_?_horo.png';
+        var s = get4LengthNum(i);
+        url = url.replace('?', s);
+        console.log(url);
+        var req = http.request(url, function(res){
+            var content = "";
+            res.setEncoding("binary");
+            res.on('data', function(chunk){
+                content += chunk;
+            });
+            res.on('end', function() {
+                fs.writeFile('./public/upload/card_'+s+'_horo.png', content, "binary", function(e){
+                    if(e) throw e;
+                    if(i<maxIdx){getCardHoro(i+1);}
+                })
+            });
+        });
+        req.end();
+    }
     getCardHoro(1);
-    express.query(req, res, next);
-});
-function getCardHoro(i) {
-    var maxIdx = 518;
-    var url = 'http://img.ruliweb.com/family/lovelive/card/card_?_horo.png';
-    var s = get4LengthNum(i);
-    url = url.replace('?', s);
-    console.log(url);
-    var req = http.request(url, function(res){
-        var content = "";
-        res.setEncoding("binary");
-        res.on('data', function(chunk){
-            content += chunk;
-        });
-        res.on('end', function() {
-            fs.writeFile('./public/upload/card_'+s+'_horo.png', content, "binary", function(e){
-                if(e) throw e;
-                if(i<maxIdx){getCardHoro(i+1);}
-            })
-        });
-    });
-    req.end();
-}
+};
+
 function get4LengthNum(i){
     j = 4- Math.floor(i.toString().length);
     var s ='';
     for(var k=0;k<j;k++)
         s += '0';
     return s+i;
-}
+};
 
-module.exports = router;
+(function(){
+    data();
+    //more();
+    //image();
+    //ch();
+}());

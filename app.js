@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var cards = require('./routes/cards');
-var spider = require('./routes/spider');
+var team = require('./routes/team');
 
 var app = express();
 

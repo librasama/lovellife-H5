@@ -74,7 +74,7 @@ header h1 {
 }
 .line .left {
   display: inline-block;
-  width: 150px;
+  width: 90px;
   height: 30px;
 }
 .line .left:after {
@@ -217,14 +217,28 @@ header h1 {
 .cardinfo {
   text-align: left;
   display: inline-block;
-  font-size: 24px;
+  font-size: 16px;
 }
 .cardinfo .line {
-  font-size: 16px;
   margin: 5px auto;
 }
 .cardinfo .line .left {
   width: 120px;
+}
+.faces {
+  height: 80px;
+  margin: 10px auto;
+  text-align: center;
+}
+.faces img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  padding-left: 10px;
+  display: inline-block;
+  float: left;
+  max-width: 100px;
+  min-width: 50px;
 }
 .addbox {
   margin: 0 auto;
