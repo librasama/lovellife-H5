@@ -43,9 +43,16 @@ CardDAO.prototype.find = function(condition, count, page, cb) {
             query(condition, count, page, cb);
         });
     } else { query(condition, count, page, cb);}
-
-
 };
+
+CardDAO.prototype.query = function(ids, cb) {
+    Card.where('card_id').in(ids)
+        .exec(function(err, doc){
+        if(err) console.log("errrrr"+err);
+        cb(err, doc);
+    });
+}
+
 CardDAO.prototype.upd = function(condition, update, options, cb) {
     Card.update(condition, update, function(err, doc){
         if(err) {console.log("更新错误："+err);; return ;}

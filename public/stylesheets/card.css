@@ -69,7 +69,9 @@ header h1 {
   padding-top: 6px;
   font-family: Helvetica, 'Hiragino Sans GB', 'Microsoft Yahei', '微软雅黑', Arial, sans-serif;
 }
-.line {
+.tab .line {
+  padding-top: 10px;
+  text-align: left;
   margin: 20px 0;
 }
 .line .left {
@@ -94,16 +96,17 @@ header h1 {
 }
 .tab {
   display: none;
-  float: left;
-  text-align: left;
+  text-align: center;
   padding-top: 10px;
-  padding-left: 20px;
   padding-bottom: 40px;
+  width: 340px;
+  margin: 0 auto;
 }
 .tab .grid .member {
   display: inline-block;
   text-decoration: none;
   margin-left: 10px;
+  margin-bottom: 10px;
 }
 .tab .grid .member span {
   display: block;
@@ -123,7 +126,8 @@ header h1 {
   font-size: 0;
   float: left;
   text-align: left;
-  padding-left: 20px;
+  margin-left: 20px;
+  padding: 2px;
 }
 .tab-titles .on {
   background: burlywood;
@@ -134,7 +138,7 @@ header h1 {
   font-size: 16px;
 }
 .tab-title {
-  width: 100px;
+  width: 60px;
   display: inline-block;
   font-weight: 700;
   font-size: 24px;
@@ -262,6 +266,7 @@ header h1 {
   border-radius: 10px;
   background-color: antiquewhite;
   color: burlywood;
+  cursor: pointer;
 }
 .row {
   width: 100%;
@@ -294,6 +299,9 @@ header h1 {
 .row .add-player span {
   padding-top: 10px;
   display: block;
+}
+.teaminfo {
+  margin-bottom: 25px;
 }
 .mask {
   width: 100%;

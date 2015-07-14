@@ -80,7 +80,7 @@ function data(){
  * 从韩网扒，更新人物名称
  */
 function more(){
-    content = fs.readFileSync('../data/content.html');
+    content = fs.readFileSync('./public/data/content.html');
     console.log(content);
     $ = cheerio.load(content, {
         normalizeWhitespace: true,
@@ -167,7 +167,8 @@ function get4LengthNum(i){
 };
 
 (function(){
-    data();
+    //data();
+    more();
     //more();
     //image();
     //ch();

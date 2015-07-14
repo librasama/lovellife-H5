@@ -29,6 +29,7 @@
     "mongodb": "~2.0.36",
     "cheerio": "~0.19.0",
     "simple-code-statics": "~0.1.2",
+    "MD5":"~1.2.2",
     "grunt-contrib-jshint":"~0.7.2",
     "grunt-contrib-qunit":"~0.3.0",
     "grunt-contrib-concat":"~0.3.0",

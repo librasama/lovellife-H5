@@ -8,11 +8,14 @@ $(document).ready(function(){
 var info = {};
 var card = {
     init:function() {
+        info = JSON.parse($('#initInfos').val());
+        $('#initInfos').remove();
+        $('.member').on('click', picked.showCardInfo);
         $($(".tab-title").get(0)).addClass('on');
         $($(".tab").get(0)).addClass('on');
         $(".tab-title").click(function () {
             if ($(this).hasClass('on')) return;
-            var i = parseInt($(this).attr("tab-rel")) - 1;
+            var i = parseInt($(this).attr("tab-rel")) ;
             $(".tab-title").removeClass("on");
             $($(".tab-title").get(i)).addClass("on");
             $(".tab").removeClass("on");
@@ -33,17 +36,36 @@ var card = {
         });
 
         $('.addBtn').on('click', function() {
-            if ($('.grid .add-player').length != 0) {
+            if ($('.playerIn').length != 9) {
                 alert('缪斯果然必须九个人才行呢~！');return false;}
-            $.get('/team/count', true, function(){
-                tooMany = count >= 5;
-            });
-            if(tooMany) {alert('按国服的标准您的队伍太多...憋建了');}
-            team.name = $('.teamname').val();
-            team.players = [1,1,1,1,1,1,1,1,1];//九个id
-            $.post('/team/save', team, function (data) {
 
+            /**
+             *  TODO HTML5本地存储?????
+             */
+            var cleanUp = function(){
+                $('.playerIn').removeClass('playerIn').addClass('add-player')
+                    .append($('<span>+</span>')).unbind().on('click', mask.bringMask);
+                $('.add-player img').remove();
+                mask.pickedNum = 0;
+                mask.enableNum = 9;
+            };
+            $.get('/team/count', true, function(ret){
+                var tooMany = (parseInt(JSON.parse(ret).count) >= 5);
+                if(tooMany) {alert('按国服的标准您的队伍太多...憋建了'); cleanUp();return;}
+                team = {};
+                team.name = $('.teamname').val();
+                players = [];
+                $('.playerIn img').each(function($idx, $player) {
+                    console.log(info[$($player).attr('id')].card_id);
+                    players.push(info[$($player).attr('id')].card_id);
+                });
+                team.players = players;
+                $.post('/team/save', team, function (data) {
+                    alert('主人，您的队伍已经建好啦~');
+                    cleanUp();
+                });
             });
+
         });
     }
 
@@ -68,11 +90,7 @@ var mask = {
         $('.peakbox').on('click', function(e){
             return false;
         });
-        $('.add-player').on('click', function(){
-            $('.mask').toggle();
-            $('.peakbox').toggle();
-            $('.result-box').toggle();
-        });
+        $('.add-player').on('click', mask.bringMask);
         $(window).resize(function(){
             mask.initPadding();
         });
@@ -127,6 +145,11 @@ var mask = {
         mask.pickedTop = 250;
         mask.pickedNum = 0;
         mask.enableNum = 9 - $('.playerIn').size();
+    },
+    bringMask:function(){
+        $('.mask').toggle();
+        $('.peakbox').toggle();
+        $('.result-box').toggle();
     }
 };
 var searchbox = {
@@ -190,7 +213,7 @@ var searchbox = {
                     }
                     src= "../upload/"+$item.card_normal;
                     if(!info[$item.card_normal]) {info[$item.card_normal] = $item};
-                    var player = $('<div class="player"><img src="'+src+'"> <span>'+$item.card_name+'</span></div>');
+                    var player = $('<div class="player"><img id="'+$item.card_normal+'" src="'+src+'"> <span>'+$item.card_name+'</span></div>');
                     $($(".peakbox .row").get(Math.floor($idx/5))).append(player);
                 });
             } else {
