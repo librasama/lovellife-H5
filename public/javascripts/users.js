@@ -20,15 +20,25 @@ $(document).ready(function(){
                     $('.error').text('');
                 }
                 if(!checksuit.isEmail($('#email'))) {
-
+                    $('.error').text($('.error').text() + ' 邮箱格式不正确！');
                 }
                 // 校验邮箱或用户名已存在
-                checkUser(function(err){
+                var obj = {};
+                obj.uname = $('#uname').val();
+                obj.email = $('#email').val();
+                checkUser(obj,function(err){
                     if(err) {
                         // 提示
                     } else {
                         // 注册未激活用户，发送激活邮件
-
+                        $.post('/user/sendEmail', function (json) {
+                            var data = JSON.parse(json);
+                            if(data.flag) {
+                                alert('邮件发送成功，请去邮箱检查~！');
+                            } else {
+                                alert('邮件发送失败，或者其他的失败……');
+                            }
+                        })
                     }
                 });
             }
@@ -38,7 +48,7 @@ $(document).ready(function(){
     function checkUser(user, cb) {
         $.post('/user/userExist', function(json) {
             data = $.parseJSON(json);
-            if(!data.flag) {
+            if(data.flag) {
                 var err = {};
                 err.msg = data.msg;
                 // 存在用户
@@ -53,15 +63,15 @@ $(document).ready(function(){
     /**
      * ajax 邮箱校验
      */
-    $('#email').onblur(function(){
-
-    });
+    //$('#email').onblur(function(){
+    //
+    //});
 
     /**
      * ajax 用户名校验
      */
-    $('#uname').onblur(function(){
-
-    });
+    //$('#uname').onblur(function(){
+    //
+    //});
 
 });

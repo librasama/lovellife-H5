@@ -1,4 +1,4 @@
-var check = {
+var checksuit = {
 
     /**
      * 校验项目是否为空，如果为空placeholder变为指定的提示语
