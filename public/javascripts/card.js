@@ -1,6 +1,7 @@
 $(document).ready(function(){
     card.init();
     mask.init();
+    tabs.init();
     searchbox.init();
     picked.init();
 });
@@ -15,7 +16,7 @@ var card = {
         $($(".tab").get(0)).addClass('on');
         $(".tab-title").click(function () {
             if ($(this).hasClass('on')) return;
-            var i = parseInt($(this).attr("tab-rel")) ;
+            var i = $(this).index();
             $(".tab-title").removeClass("on");
             $($(".tab-title").get(i)).addClass("on");
             $(".tab").removeClass("on");
@@ -282,3 +283,35 @@ var picked = {
         $('.cardinfo #skill').text(item.skill);
     }
 }
+var tabs = {
+    init:function(){
+        tabs.initDel();
+
+    },
+    initDel:function() {
+        $('.del-team').on('click', function(){
+            //弹出确认删除对话框
+            var del =  $(this);
+            var delCb = function() {
+                var team = {};
+                team.id = del.attr('id');
+                console.log("team.id : " + team.id);
+                $('.tabs .on').remove();
+                $('.tabs .tab-titles span').eq(0).addClass('on');
+                $('.tabs .tab').eq(0).addClass('on');
+                $.post('/team/del', team, function(data, status){
+                    var rs = JSON.parse(data);
+                    if(rs.flag || "true" == rs.flag) {
+                        alert('删除成功');
+                    }
+                });
+            };
+            if(confirm('真的要删除吗？')) {
+                delCb();
+            } else {
+                return;
+            }
+
+        });
+    }
+};

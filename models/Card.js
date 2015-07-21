@@ -48,7 +48,8 @@ CardDAO.prototype.find = function(condition, count, page, cb) {
 CardDAO.prototype.query = function(ids, cb) {
     Card.where('card_id').in(ids)
         .exec(function(err, doc){
-        if(err) console.log("errrrr"+err);
+        if(err)
+            {console.log("errrr"+err);}
         cb(err, doc);
     });
 }

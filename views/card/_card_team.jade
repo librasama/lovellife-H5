@@ -13,6 +13,9 @@ mixin team(teams)
 					- var name = team.name;
 					- var info = team.info;
 					+tab(name, info)
+			.func
+				.edit-team 修改队伍
+				.play-game Lovelive!
 		.addbox
 			.grid-3
 				- var i=0;
@@ -35,6 +38,7 @@ mixin tab(name, info)
 	.line
 		.left 队伍名
 		.right #{name}
+		.del-team(id=name) 删除
 	.grid
 		each item in info
 			-var src = item.img;

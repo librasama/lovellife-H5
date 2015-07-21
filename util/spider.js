@@ -29,7 +29,8 @@ function data(){
                 xmlMode: false,
                 decodeEntities: true
             });
-
+            console.log(content);
+            console.log("获取到报文，开始解析：");
             $("#lovelive_card").each(function($idx1, $card){
                 obj = {};
                 $($('p', $card)).each(function($dx2, $item){
@@ -167,8 +168,8 @@ function get4LengthNum(i){
 };
 
 (function(){
-    //data();
-    more();
+    data();
+    //more();
     //more();
     //image();
     //ch();

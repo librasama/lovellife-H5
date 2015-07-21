@@ -98,7 +98,6 @@ header h1 {
   display: none;
   text-align: center;
   padding-top: 10px;
-  padding-bottom: 40px;
   width: 340px;
   margin: 0 auto;
 }
@@ -121,6 +120,7 @@ header h1 {
   overflow: hidden;
   border: 1px solid yellow;
   display: inline-block;
+  cursor: pointer;
 }
 .tab-titles {
   font-size: 0;
@@ -302,6 +302,29 @@ header h1 {
 }
 .teaminfo {
   margin-bottom: 25px;
+}
+.func .edit-team,
+.func .play-game {
+  display: inline-block;
+  margin-bottom: 20px;
+  cursor: pointer;
+  padding: 2px 5px;
+  background: #E6EBEC;
+  color: #54A89B;
+  border-radius: 2px 3px 3px ;
+}
+.func .edit-team {
+  margin-right: 50px;
+}
+.del-team {
+  display: inline-block;
+  float: right;
+  margin-right: 10px;
+  padding: 2px 5px;
+  background: #E6EBEC;
+  color: #54A89B;
+  font-size: 12px;
+  cursor: pointer;
 }
 .mask {
   width: 100%;

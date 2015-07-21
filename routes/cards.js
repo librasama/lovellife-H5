@@ -16,6 +16,7 @@ router.get('/', function(req, res, next){
             obj.rel = t;
             obj.info = [];
             var cardIds = item.cards;
+            console.log("获取到数据了");
             for(var i=0;i<cardIds.length;i++) {
                 var id = cardIds[i];
                 for(var j=0;j<item.cardsInfo.length;j++) {

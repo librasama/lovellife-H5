@@ -17,16 +17,24 @@ TeamDAO.prototype.add = function(team, cb) {
 };
 
 TeamDAO.prototype.list = function(userid, cb) {
+    console.log("开始读库");
     var q = {};
     q.userid = userid;
     Team.find(q, function(err, doc){
+        console.log("返回结果:err"+err+"   doc:"+doc);
         if(err) throw err;
         cb(doc);
     });
 };
 
-TeamDAO.prototype.upd = function() {
-
+TeamDAO.prototype.del = function(userid, name, cb) {
+    var q = {};
+    q.userid = userid;
+    q.name = name;
+    Team.remove(q, function(e){
+        if(e) throw e;
+        cb();
+    });
 };
 
 TeamDAO.prototype.count = function(userid, cb){

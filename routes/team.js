@@ -19,54 +19,32 @@ router.post('/save', function(req, res, next){
 
 });
 
-router.get('/list', function(req, res, next){
-    var userid = '1';
-    teamDao.list(userid, function(teams){
-       var ret = [];
-        function getInfo(i) {
-           var team =teams[i];
-           name = team.name;
-           condition = {};
-           condition['$in'] = team.cards;
-           var q = {};
-           q.card_id = condition;
-           card.find(condition, 1, 1, function(err, doc){
-               if(err) throw err;
-               team.info = doc;
-               i++;
-               if(i<teams.length) {
-                    ret.push(team);
-                    getInfo(i);
-               } else {
-                   res.json(JSON.stringify(ret));
-               }
-           });
-        }
-        getInfo(0);
-    });
-
-});
-
 router.listTeam = function(userid, cb){
     var userid = userid;
     teamDao.list(userid, function(teams){
         var ret = [];
+        var i =0;
         function getInfo(i) {
-            var team =teams[i];
-            name = team.name;
-            card.query(team.cards, function(err, doc){
-                if(err) throw err;
-                team.cardsInfo = doc;
-                i++;
-                if(i<teams.length) {
-                    ret.push(team);
-                    getInfo(i);
-                } else {
-                    cb(ret);
-                }
-            });
+            if(i>= teams.length) {
+                cb(ret);
+            } else {
+                var team =teams[i];
+                console.log("teams.length:"+teams.length+"getInfo(i)="+i + "  team="+JSON.stringify(team));
+                name = team.name;
+                card.query(team.cards, function(err, doc){
+                    if(err) throw err;
+                    team.cardsInfo = doc;
+                    if(i<=teams.length-1) {
+                        i += 1;
+                        ret.push(team);
+                        getInfo(i);
+                    } else {
+                        cb(ret);
+                    }
+                });
+            }
         }
-        getInfo(0);
+        getInfo(i);
     });
 }
 
@@ -84,6 +62,17 @@ router.get('/count', function(req, res, next){
     });
 });
 
+router.post('/del', function(req, res, next){
+    //userid = req.body.userid;
+    var userid = '1';
+    var name = req.body.id;
+    teamDao.del(userid, name, function(){
+        var ret = {};
+        ret.flag = true;
+        res.json(JSON.stringify(ret));
+    });
+
+});
 
 
 module.exports = router;
