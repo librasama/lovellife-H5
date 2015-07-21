@@ -16,5 +16,9 @@ router.get('/comic', function(req, res, next) {
   express.query(req, res, next);
 });
 
+router.get('/', function (req, res, next) {
+  
+});
+
 
 module.exports = router;

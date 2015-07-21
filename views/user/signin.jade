@@ -1,0 +1,18 @@
+extends ../layout/layout
+block myhead
+	script(type='text/javascript' src='javascripts/3part/bundle.js')
+block content
+	.wrapper
+		.title 登录
+			a(href='/signup' )
+		.content
+			.row
+				span 邮箱/用户名
+				input#emailuname(type='text')
+			.row
+				span 密码
+				input#pwd(type='password')
+				a(href='')
+			.row
+			.row
+				input#signBtn(type='submit')

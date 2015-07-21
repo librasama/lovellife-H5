@@ -1,0 +1,24 @@
+extends ../layout/layout
+block myhead
+   script(type='text/javascript' src='/javascripts/users.js')
+block content
+   .wrapper
+      .title 新用户注册
+         a(href='/signup' )
+      .content
+         .row
+            span 邮箱
+            input#email(type='text')
+         .row
+            span 用户名
+            input#uname(type='text')
+         .row
+            span 密码
+            input#pwd(type='password')
+            span 眼睛按钮
+         .row
+            span 确认密码
+            input#pwd2(type='password')
+            span 眼睛按钮
+         .row
+            input#signBtn(type='submit')
