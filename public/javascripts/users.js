@@ -1,17 +1,4 @@
 $(document).ready(function(){
-    function checkNull(items){
-        var flag = true;
-        for(var i=0;i<items.length;i++) {
-            var item = items[i];
-            var selector = item.selector;
-            var tips = item.tips;
-            if(($(selector).val() == null ||　$(selector).val()=='')) {
-                flag = false;
-                $(selector).attr('placeholder', tips);
-            }
-        }
-        return flag;
-    }
 
     /**
      * 点击眼睛显示密码
@@ -23,19 +10,58 @@ $(document).ready(function(){
 
     $('#signBtn').on('click', function () {
         // '邮箱不能为空'
-        var flag = checkNull([{"selector":"#email", "tips":"邮箱不能为空"},
-            {"selector":"#uname", "tips": "用户名不能为空"},
-            {"selector":"#pwd", "tips": "密码不能为空"},
-            {"selector":"#pwd2", "tips": "确认密码不能为空"}]);
+        $.getJSON('/data/check.json', function(data){
+            var flag = checksuit.isNull(data.user);
             if(flag) {
                 // 都不为空，开始校验是否密码相等
                 if($('#pwd').val() != $('#pwd2')) {
-                    $('#pwdTip').show(); // 显示
+                    $('.error').text('两次密码输入不一致！');
                 } else {
-                    $('#pwdTip').hide(); // 隐藏
+                    $('.error').text('');
                 }
+                if(!checksuit.isEmail($('#email'))) {
+
+                }
+                // 校验邮箱或用户名已存在
+                checkUser(function(err){
+                    if(err) {
+                        // 提示
+                    } else {
+                        // 注册未激活用户，发送激活邮件
+
+                    }
+                });
             }
         });
+    });
 
+    function checkUser(user, cb) {
+        $.post('/user/userExist', function(json) {
+            data = $.parseJSON(json);
+            if(!data.flag) {
+                var err = {};
+                err.msg = data.msg;
+                // 存在用户
+                // 邮箱已被注册
+                cb(err);
+            }  else {
+                cb(null);
+            }
+        });
+    };
+
+    /**
+     * ajax 邮箱校验
+     */
+    $('#email').onblur(function(){
+
+    });
+
+    /**
+     * ajax 用户名校验
+     */
+    $('#uname').onblur(function(){
+
+    });
 
 });

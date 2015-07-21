@@ -34,6 +34,15 @@ router.get('/forgetPwd', function (req, res, next) {
 });
 
 /**
+ * 邮箱/用户名是否已经存在
+ */
+router.post('/userExist', function (req, res, next) {
+    var email = req.body.email;
+    var uname = req.body.uname;
+    res.json();
+})
+
+/**
  * 发送确认邮件
  */
 router.post('/sendEmail', function(req, res, next){
